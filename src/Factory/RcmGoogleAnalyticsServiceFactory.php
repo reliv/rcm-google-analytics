@@ -2,7 +2,6 @@
 
 namespace Reliv\RcmGoogleAnalytics\Factory;
 
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\View\Helper\RcmGoogleAnalyticsJsHelper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

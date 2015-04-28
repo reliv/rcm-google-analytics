@@ -56,7 +56,11 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 
         $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity();
 
+        ob_start();
         include($template);
+        $output = ob_get_clean();
+
+        return $output;
     }
 
 }
