@@ -1,16 +1,15 @@
 {
   "name": "reliv/rcm-google-analytics",
-  "description": "Error logger for Axosoft on-time.",
+  "description": "Rcm Google Analytics",
   "type": "library",
   "license": "BSD-3-Clause",
   "keywords": [
+    "rcm",
     "reliv",
-    "error",
-    "exception",
     "module",
     "zf2",
-    "axosoft",
-    "on-time"
+    "google",
+    "analytics"
   ],
   "minimum-stability": "stable",
   "homepage": "https://github.com/reliv/rcm-google-analytics",

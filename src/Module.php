@@ -3,7 +3,7 @@
  * Module Config For ZF2
  */
 
-namespace Reliv\RcmGoogle\Analytics;
+namespace Reliv\RcmGoogleAnalytics;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 
