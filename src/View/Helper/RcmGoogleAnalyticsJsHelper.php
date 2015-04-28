@@ -22,7 +22,6 @@ use Zend\View\Helper\AbstractHelper;
  */
 class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 {
-
     /**
      * @var array
      */
@@ -52,6 +51,11 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      */
     public function __invoke()
     {
+        if(!$this->config['use-analytics'])
+        {
+            return "";
+        }
+
         $template = $this->config['javascript-view'];
 
         $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity();

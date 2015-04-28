@@ -100,4 +100,22 @@ class RcmGoogleAnalytics
 
         return new RcmGoogleAnalyticsEntity();
     }
+
+    /**
+     * getCurrentAnalyticEntityWithVerifyCode
+     *
+     * @param $verificationCode
+     *
+     * @return RcmGoogleAnalyticsEntity
+     */
+    public function getCurrentAnalyticEntityWithVerifyCode($verificationCode)
+    {
+        $entity = $this->getCurrentAnalyticEntity();
+
+        if($entity->getVerificationCode() !== $verificationCode){
+            return new RcmGoogleAnalyticsEntity();
+        }
+
+        return $entity;
+    }
 }

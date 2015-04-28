@@ -1,0 +1,5 @@
+<?php
+if($this->model->hasVerificationCode()) {
+    echo "google-site-verification: google{$this->model->getVerificationCode()}.html";
+}
+?>

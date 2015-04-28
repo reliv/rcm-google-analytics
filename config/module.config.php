@@ -4,7 +4,8 @@ return [
      * Configuration
      */
     'Reliv\RcmGoogleAnalytics' => [
-        'javascript-view' => __DIR__ . '/../view/gaq.js.phtml'
+        'use-analytics' => true,
+        'javascript-view' => __DIR__ . '/../view/test.js.phtml'
     ],
 
     'doctrine' => [

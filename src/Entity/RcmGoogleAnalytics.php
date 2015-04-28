@@ -106,7 +106,7 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * hasAccount
+     * hasTracking
      *
      * @return bool
      */
@@ -135,6 +135,16 @@ class RcmGoogleAnalytics
     public function setVerificationCode($verificationCode)
     {
         $this->verificationCode = $verificationCode;
+    }
+
+    /**
+     * hasVerificationCode
+     *
+     * @return bool
+     */
+    public function hasVerificationCode()
+    {
+        return !empty($this->verificationCode);
     }
 
     /**

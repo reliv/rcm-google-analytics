@@ -2,7 +2,7 @@
 
 namespace Reliv\RcmGoogleAnalytics\Factory;
 
-use Reliv\RcmGoogleAnalytics\View\Helper\RcmGoogleAnalyticsJsHelper;
+use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -25,9 +25,11 @@ class RcmGoogleAnalyticsServiceFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('config');
-        $service = $serviceLocator->get('Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics');
 
-        return new RcmGoogleAnalyticsJsHelper($config['Reliv\RcmGoogleAnalytics'], $service);
+
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
+
+        return new RcmGoogleAnalytics($entityManager, $currentSite);
     }
 }
