@@ -22,7 +22,10 @@
   ],
   "require": {
     "php": ">=5.5",
-    "zendframework/zendframework": "2.*"
+    "zendframework/zendframework": "2.*",
+    "doctrine/doctrine-orm-module": "0.*",
+    "reliv/rcm": "0.*",
+    "reliv/rcm-user": "0.*"
   },
   "autoload": {
     "psr-4": {

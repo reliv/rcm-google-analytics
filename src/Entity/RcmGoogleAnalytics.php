@@ -3,6 +3,7 @@
 namespace Reliv\RcmGoogleAnalytics\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rcm\Entity\ApiBase;
 use Rcm\Entity\Site;
 
 /**
@@ -23,9 +24,8 @@ use Rcm\Entity\Site;
  * @ORM\Entity
  * @ORM\Table(name="rcm_google_analytics")
  */
-class RcmGoogleAnalytics
+class RcmGoogleAnalytics extends ApiBase
 {
-
     /**
      * @var int
      *
@@ -48,6 +48,13 @@ class RcmGoogleAnalytics
      * @ORM\Column(type="string", nullable=true)
      */
     protected $verificationCode;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $siteId;
 
     /**
      * @var \Rcm\Entity\Site
@@ -80,7 +87,7 @@ class RcmGoogleAnalytics
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id =(int)  $id;
     }
 
     /**
@@ -102,7 +109,7 @@ class RcmGoogleAnalytics
      */
     public function setTrackingId($trackingId)
     {
-        $this->trackingId = $trackingId;
+        $this->trackingId = (string) $trackingId;
     }
 
     /**
@@ -134,7 +141,7 @@ class RcmGoogleAnalytics
      */
     public function setVerificationCode($verificationCode)
     {
-        $this->verificationCode = $verificationCode;
+        $this->verificationCode = (string) $verificationCode;
     }
 
     /**
@@ -145,6 +152,16 @@ class RcmGoogleAnalytics
     public function hasVerificationCode()
     {
         return !empty($this->verificationCode);
+    }
+
+    /**
+     * getSite
+     *
+     * @return \Rcm\Entity\Site
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
     }
 
     /**
@@ -167,15 +184,32 @@ class RcmGoogleAnalytics
     public function setSite(Site $site)
     {
         $this->site = $site;
+        $this->siteId = $site->getSiteId();
     }
 
     /**
      * getHost
      *
-     * @return void
+     * @return string
      */
     public function getHost()
     {
         return $this->site->getDomain()->getDomainName();
+    }
+
+    /**
+     * toArray
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = parent::toArray();
+
+        $array['host'] = $this->getHost();
+
+        unset($array['site']);
+
+        return $array;
     }
 }

@@ -1,15 +1,15 @@
+
 <!-- <RCM Google Analytics TEST> -->
 <pre style="display: none">
 <?php
 if ($this->model->hasTracking()) {
 
-    echo "\nAnalytics for this site: \n\n";
-    \Doctrine\Common\Util\Debug::dump($this->model); die;
-
+    echo "\nAnalytics for this site: \n";
 } else {
 
     echo "\nNo Analytics set for this site\n";
 }
+\Doctrine\Common\Util\Debug::dump($this->model->toArray());
 ?>
 </pre>
 <!-- </RCM Google Analytics TEST> -->

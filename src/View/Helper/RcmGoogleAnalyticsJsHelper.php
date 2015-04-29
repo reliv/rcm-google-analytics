@@ -22,6 +22,7 @@ use Zend\View\Helper\AbstractHelper;
  */
 class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 {
+    protected $templatePath = '/../../../view/';
     /**
      * @var array
      */
@@ -56,10 +57,13 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
             return "";
         }
 
-        $template = $this->config['javascript-view'];
+        $template = __DIR__ . $this->templatePath . $this->config['javascript-view'];
 
-        $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity();
+        $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
+            new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
+        );
 
+        // @todo There might be a better way
         ob_start();
         include($template);
         $output = ob_get_clean();

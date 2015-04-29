@@ -5,9 +5,35 @@ return [
      */
     'Reliv\RcmGoogleAnalytics' => [
         'use-analytics' => true,
-        'javascript-view' => __DIR__ . '/../view/test.js.phtml'
+        'javascript-view' => 'test.js.phtml',
+        /**
+         * For use with:
+         * 'AnalyticsAccessRcmUserAcl' and/or 'RcmGoogleAnalyticsResourceProvider'
+         */
+        'acl-resource-config' => [
+            'providerId' => 'Reliv\RcmGoogleAnalytics\Acl\ResourceProvider',
+            'resourceId' => 'rcm-google-analytics',
+            'privilege' => 'admin',
+        ],
     ],
 
+    /**
+     * Config for RcmUser ACL Resource Provider
+     * - ONLY used if configured for
+     * 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory'
+     * With default settings
+     */
+    'RcmUser' => [
+        'Acl\Config' => [
+            'ResourceProviders' => [
+                'RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider',
+            ],
+        ],
+    ],
+
+    /**
+     * Doctrine config
+     */
     'doctrine' => [
         'driver' => [
             'Reliv\RcmGoogleAnalytics' => [
@@ -15,35 +41,67 @@ return [
                 'cache' => 'array',
                 'paths' => [
                     __DIR__ . '/../src/Entity'
-                ]
+                ],
             ],
             'orm_default' => [
                 'drivers' => [
                     'Reliv\RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics'
-                ]
-            ]
+                ],
+            ],
         ],
         'configuration' => [
             'orm_default' => [
                 'metadata_cache' => 'doctrine_cache',
                 'query_cache' => 'doctrine_cache',
                 'result_cache' => 'doctrine_cache',
-            ]
+            ],
         ],
     ],
 
     'service_manager' => [
         'factories' => [
-            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory'
-        ]
+            /**
+             * Service
+             */
+            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory',
+
+            /**
+             * RcmUser Resource Provider
+             */
+            'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory',
+
+            /**
+             * Set access based on RcmUser Acl Resources
+             * Configured by acl-resource-config config settings
+             * By default will use 'RcmGoogleAnalyticsResourceProvider'
+             */
+            'Reliv\RcmGoogleAnalytics\AnalyticsAccess' => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory',
+
+            /*
+             * Set NO access controls NOT RECOMMENDED
+             *
+            'Reliv\RcmGoogleAnalytics\AnalyticsAccess' => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessAnyFactory',
+             /* */
+        ],
     ],
 
+    /**
+     * Controllers
+     */
     'controllers' => [
         'invokables' => [
             'Reliv\RcmGoogleAnalytics\Controller\VerificationController' =>
                 'Reliv\RcmGoogleAnalytics\Controller\VerificationController',
-        ]
+            'Reliv\RcmGoogleAnalytics\RcmGoogleAnalyticsController' =>
+                'Reliv\RcmGoogleAnalytics\RcmGoogleAnalyticsController',
+            'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController' =>
+                'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController'
+        ],
     ],
+
+    /**
+     * Views
+     */
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',
@@ -56,10 +114,14 @@ return [
             => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsViewHelperFactory',
         ],
     ],
+
+    /**
+     * Routes
+     */
     'router' => [
         'routes' => [
             'Reliv\RcmGoogleAnalytics\Verification' => [
-                'type' => 'segment',
+                'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
                     'route' => '/google[:verificationCode].html',
                     'defaults' => [
@@ -68,6 +130,38 @@ return [
                     ],
                 ],
             ],
-        ]
-    ]
+            'Reliv\RcmGoogleAnalytics\RcmGoogleAnalytics' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/rcm-google-analytics',
+                    'defaults' => [
+                        'controller' => 'Reliv\RcmGoogleAnalytics\RcmGoogleAnalyticsController',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
+            'Reliv\RcmGoogleAnalytics\ApiRcmGoogleAnalyticsSite' => [
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/api/rcm-google-analytics[/:id]',
+                    'defaults' => [
+                        'controller' => 'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController',
+                    ],
+                ],
+            ],
+        ],
+    ],
+
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
+                'modules/rcm-google-analytics/' => __DIR__ . '/../public/',
+            ],
+//            'collections' => [
+//                'modules/rcm-google-analytics/js/core.js' => [
+//
+//                ],
+//            ],
+        ],
+    ],
 ];

@@ -77,20 +77,16 @@ class RcmGoogleAnalytics
         return $this->currentSite;
     }
 
-
     /**
-     * getCurrentAnalyticEntity
+     * getSiteAnalyticEntity
      *
-     * @return RcmGoogleAnalyticsEntity
+     * @param Site $site
+     * @param null $default
+     *
+     * @return null|RcmGoogleAnalyticsEntity
      */
-    public function getCurrentAnalyticEntity()
+    public function getSiteAnalyticEntity(Site $site, $default = null)
     {
-        $site = $this->getCurrentSite();
-
-        if (empty($site)) {
-            return new RcmGoogleAnalyticsEntity();
-        }
-
         $analytics = $this->getRepository()->findOneBy(['site' => $site]);
 
         if (!empty($analytics)) {
@@ -98,22 +94,41 @@ class RcmGoogleAnalytics
             return $analytics;
         }
 
-        return new RcmGoogleAnalyticsEntity();
+        return $default;
+    }
+
+    /**
+     * getCurrentAnalyticEntity
+     *
+     * @param null $default
+     *
+     * @return null|RcmGoogleAnalyticsEntity
+     */
+    public function getCurrentAnalyticEntity($default = null)
+    {
+        $site = $this->getCurrentSite();
+
+        if (empty($site)) {
+            return $default;
+        }
+
+        return $this->getSiteAnalyticEntity($site, $default);
     }
 
     /**
      * getCurrentAnalyticEntityWithVerifyCode
      *
-     * @param $verificationCode
+     * @param string $verificationCode
+     * @param null $default
      *
-     * @return RcmGoogleAnalyticsEntity
+     * @return null|RcmGoogleAnalyticsEntity
      */
-    public function getCurrentAnalyticEntityWithVerifyCode($verificationCode)
+    public function getCurrentAnalyticEntityWithVerifyCode($verificationCode, $default = null)
     {
-        $entity = $this->getCurrentAnalyticEntity();
+        $entity = $this->getCurrentAnalyticEntity(new RcmGoogleAnalyticsEntity());
 
         if($entity->getVerificationCode() !== $verificationCode){
-            return new RcmGoogleAnalyticsEntity();
+            return $default;
         }
 
         return $entity;
