@@ -30,7 +30,6 @@ class RcmGoogleAnalyticsController extends AbstractActionController
      */
     public function indexAction()
     {
-
         return [];
     }
 }

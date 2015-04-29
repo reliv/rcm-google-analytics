@@ -92,8 +92,8 @@ return [
         'invokables' => [
             'Reliv\RcmGoogleAnalytics\Controller\VerificationController' =>
                 'Reliv\RcmGoogleAnalytics\Controller\VerificationController',
-            'Reliv\RcmGoogleAnalytics\RcmGoogleAnalyticsController' =>
-                'Reliv\RcmGoogleAnalytics\RcmGoogleAnalyticsController',
+            'Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController' =>
+                'Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController',
             'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController' =>
                 'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController'
         ],
@@ -135,7 +135,7 @@ return [
                 'options' => [
                     'route' => '/rcm-google-analytics',
                     'defaults' => [
-                        'controller' => 'Reliv\RcmGoogleAnalytics\RcmGoogleAnalyticsController',
+                        'controller' => 'Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController',
                         'action' => 'index',
                     ],
                 ],

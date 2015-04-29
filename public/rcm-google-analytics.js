@@ -5,7 +5,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
         'rcmApiService',
         function (rcmApiService) {
 
-
             var self = this;
 
             self.loading = true;
@@ -14,24 +13,24 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
 
             var url = '/api/rcm-google-analytics/current';
 
-            var onLoadingChange = function(loading){
+            var onLoadingChange = function (loading) {
                 self.loading = loading;
             };
 
-            var onGetAnalyticSettingsSuccess = function(data){
+            var onGetAnalyticSettingsSuccess = function (data) {
                 self.analyticSettings = data.data;
             };
 
-            var onGetAnalyticSettingsError = function(data){
+            var onGetAnalyticSettingsError = function (data) {
                 self.error = data;
             };
 
-            self.init = function() {
+            self.init = function () {
 
                 self.getAnalyticSettings();
             };
 
-            self.getAnalyticSettings = function(){
+            self.getAnalyticSettings = function () {
 
                 var apiParams = {
                     url: url,
@@ -45,12 +44,9 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
                 rcmApiService.get(apiParams);
             };
 
-
-
-
-
-
             self.init();
         }
     ]
 );
+
+rcm.addAngularModule('rcmGoogleAnalytics');

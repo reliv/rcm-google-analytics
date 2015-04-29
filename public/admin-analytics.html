@@ -1,4 +1,10 @@
-<div data-ng-controller="rcm-google-analytics-admin-controller as controller">
+<div ng-controller="rcmGoogleAnalyticsAdminController as main">
+    <div class="loading" ng-show="main.loading">
+        Loading..
+    </div>
+    <div ng-hide="main.loading">
 
-    {{controller.analyticSettings  | json}}
+        <pre>{{main.analyticSettings | json}}</pre>
+
+    </div>
 </div>
