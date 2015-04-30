@@ -22,10 +22,34 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
 
             var url = '/api/rcm-google-analytics/current';
 
+            var translationUrl = '/api/rcm-translate-api/default';
+
             var onLoadingChange = function (loading) {
                 self.loading = loading;
             };
 
+            /**
+             * onGetTranslationsSuccess
+             * @param data
+             */
+            var onGetTranslationsSuccess = function (data) {
+                self.translations = data;
+
+                self.initAnalytics();
+            };
+
+            /**
+             * onGetTranslationsError
+             * @param data
+             */
+            var onGetTranslationsError = function (data) {
+                self.initAnalytics();
+            };
+
+            /**
+             * onGetAnalyticSettingsSuccess
+             * @param data
+             */
             var onGetAnalyticSettingsSuccess = function (data) {
 
                 self.isNewAnalyticSettings = false;
@@ -76,12 +100,21 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
             };
 
             /**
-             * init
+             *
              */
-            self.init = function () {
+            var getTranslations = function() {
 
-                self.getAnalyticSettings();
+                var apiParams = {
+                    url: translationUrl,
+                    params: self.translations,
+                    loading: onLoadingChange,
+                    success: onGetTranslationsSuccess,
+                    error: onGetTranslationsError
+                };
+
+                rcmApiService.get(apiParams);
             };
+
 
             /**
              * getAnalyticSettings
@@ -146,6 +179,22 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
                 rcmApiService.del(apiParams);
 
             };
+            /**
+             * initAnalytics
+             */
+            self.initAnalytics = function()
+            {
+                self.getAnalyticSettings();
+            };
+
+            /**
+             * init
+             */
+            self.init = function () {
+
+                getTranslations();
+            };
+
 
             ///////////
             self.init();

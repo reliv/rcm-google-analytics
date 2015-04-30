@@ -23,6 +23,19 @@ use Zend\View\Model\ViewModel;
  */
 class RcmGoogleAnalyticsController extends AbstractActionController
 {
+    /**
+     * translate
+     *
+     * @param string $string
+     *
+     * @return mixed
+     */
+    protected function translate($string)
+    {
+        $translator = $this->serviceLocator->get('MvcTranslator');
+
+        return $translator->translate($string);
+    }
 
     /**
      * hasAccess
@@ -52,6 +65,15 @@ class RcmGoogleAnalyticsController extends AbstractActionController
             return $this->response;
         }
 
-        return [];
+        $translations = [
+            "Loading.." => $this->translate("Loading.."),
+            "Google Analytics Tracking Id" => $this->translate(
+                "Google Analytics Tracking Id"
+            ),
+            "Submit" => $this->translate("Submit"),
+            "Remove" => $this->translate("Remove")
+        ];
+
+        return $translations;
     }
 }

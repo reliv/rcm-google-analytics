@@ -25,7 +25,8 @@
     "zendframework/zendframework": "2.*",
     "doctrine/doctrine-orm-module": "0.*",
     "reliv/rcm": "0.*",
-    "reliv/rcm-user": "0.*"
+    "reliv/rcm-user": "0.*",
+    "reliv/rcm-translate-api": "0.*"
   },
   "autoload": {
     "psr-4": {
