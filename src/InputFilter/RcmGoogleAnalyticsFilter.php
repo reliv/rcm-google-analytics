@@ -35,6 +35,14 @@ class RcmGoogleAnalyticsFilter extends InputFilter
                     ['name' => 'Zend\Filter\StripTags'],
                     ['name' => 'StringTrim'],
                 ],
+                //'validators' => [
+                //    [
+                //        'name' => 'Zend\Validator\NotEmpty',
+                //        'options' => [
+                //            'type' => 'string'
+                //        ],
+                //    ],
+                //],
             ],
             'verificationCode' => [
                 'name' => 'verificationCode',

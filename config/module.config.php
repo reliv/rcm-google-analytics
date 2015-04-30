@@ -157,11 +157,15 @@ return [
             'aliases' => [
                 'modules/rcm-google-analytics/' => __DIR__ . '/../public/',
             ],
-//            'collections' => [
-//                'modules/rcm-google-analytics/js/core.js' => [
-//
-//                ],
-//            ],
+            'collections' => [
+                'modules/rcm-google-analytics/css/styles.css' => [
+                    'modules/rcm-google-analytics/css/loading.css',
+                    'modules/rcm-google-analytics/css/admin-analytics.css'
+                ],
+                'modules/rcm-google-analytics/js/script.js' => [
+                    'modules/rcm-google-analytics/js/rcm-google-analytics.js',
+                ],
+            ],
         ],
     ],
 ];

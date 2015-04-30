@@ -23,6 +23,21 @@ use Zend\View\Model\ViewModel;
  */
 class RcmGoogleAnalyticsController extends AbstractActionController
 {
+
+    /**
+     * hasAccess
+     *
+     * @return mixed
+     */
+    protected function hasAccess()
+    {
+        $accessModel = $this->serviceLocator->get(
+            'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
+        );
+
+        return $accessModel->hasAccess();
+    }
+
     /**
      * indexAction
      *
@@ -30,6 +45,13 @@ class RcmGoogleAnalyticsController extends AbstractActionController
      */
     public function indexAction()
     {
+        if (!$this->hasAccess()) {
+
+            $this->response->setStatusCode(401);
+
+            return $this->response;
+        }
+
         return [];
     }
 }

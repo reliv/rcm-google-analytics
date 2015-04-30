@@ -1,10 +1,45 @@
-<div ng-controller="rcmGoogleAnalyticsAdminController as main">
-    <div class="loading" ng-show="main.loading">
-        Loading..
+
+
+<div class="rcm-google-analytics"
+     ng-controller="rcmGoogleAnalyticsAdminController as self" ng-cloak="true">
+
+    <link href="/modules/rcm-google-analytics/css/styles.css" rel="stylesheet" type="text/css" />
+
+    <div class="loading" ng-show="self.loading">
+        <div class="loading-container">
+            <div class="loading-content">
+                <span class="loading-indicator"></span>
+                <span class="loading-message">{{self.translations["Loading"]}}</span>
+            </div>
+        </div>
     </div>
-    <div ng-hide="main.loading">
 
-        <pre>{{main.analyticSettings | json}}</pre>
+    <div class="alert alert-warning" role="alert" ng-show="self.error">
+        {{self.error.message}}
+    </div>
 
+    <div ng-hide="self.loading">
+        <div>
+            <form>
+                <div class="form-group">
+                    <label for="trackingId">{{self.translations["Google Analytics Tracking Id"]}}</label>
+                    <input type="text"
+                           class="form-control"
+                           id="trackingId"
+                           placeholder="UA-000000-01"
+                           ng-model="self.analyticSettings.trackingId">
+                </div>
+                <button type="button"
+                        class="btn btn-primary"
+                        ng-disabled="!self.analyticSettings.trackingId"
+                        ng-click="self.saveAnalyticSettings()">{{self.translations["Submit"]}}
+                </button>
+                <button type="button"
+                        class="btn btn-default"
+                        ng-hide="self.isNewAnalyticSettings"
+                        ng-click="self.deleteAnalyticSettings()">{{self.translations["Remove"]}}
+                </button>
+            </form>
+        </div>
     </div>
 </div>

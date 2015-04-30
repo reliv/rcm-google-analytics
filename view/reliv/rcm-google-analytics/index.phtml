@@ -1,6 +1,12 @@
 <?php
 $this->headScript()->appendFile(
-    '/modules/rcm-google-analytics/rcm-google-analytics.js'
+    '/modules/rcm-google-analytics/js/script.js'
 );
+?>
+    <div class="rcm-google-analytics">
+        <h1><?= $this->translate("Google Analytics Settings"); ?></h1>
+    </div>
 
+<?php
 include(__DIR__ . '/../../../public/admin-analytics.html');
+?>
