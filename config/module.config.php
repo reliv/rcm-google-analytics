@@ -16,7 +16,6 @@ return [
             'privilege' => 'admin',
         ],
     ],
-
     /**
      * Config for RcmUser ACL Resource Provider
      * - ONLY used if configured for
@@ -30,7 +29,6 @@ return [
             ],
         ],
     ],
-
     /**
      * Doctrine config
      */
@@ -57,19 +55,16 @@ return [
             ],
         ],
     ],
-
     'service_manager' => [
         'factories' => [
             /**
              * Service
              */
             'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory',
-
             /**
              * RcmUser Resource Provider
              */
             'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory',
-
             /**
              * Set access based on RcmUser Acl Resources
              * Configured by acl-resource-config config settings
@@ -84,7 +79,6 @@ return [
              /* */
         ],
     ],
-
     /**
      * Controllers
      */
@@ -98,7 +92,6 @@ return [
                 'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController'
         ],
     ],
-
     /**
      * Views
      */
@@ -107,14 +100,12 @@ return [
             __DIR__ . '/../view',
         ],
     ],
-
     'view_helpers' => [
         'factories' => [
             'rcmGoogleAnalytics'
             => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsViewHelperFactory',
         ],
     ],
-
     /**
      * Routes
      */
@@ -151,7 +142,6 @@ return [
             ],
         ],
     ],
-
     'asset_manager' => [
         'resolver_configs' => [
             'aliases' => [
@@ -163,6 +153,9 @@ return [
                     'modules/rcm-google-analytics/css/admin-analytics.css'
                 ],
                 'modules/rcm-google-analytics/js/script.js' => [
+                    'modules/rcm-google-analytics/js/rcm-google-analytics.js',
+                ],
+                'modules/rcm-admin/js/rcm-admin.js' => [
                     'modules/rcm-google-analytics/js/rcm-google-analytics.js',
                 ],
             ],

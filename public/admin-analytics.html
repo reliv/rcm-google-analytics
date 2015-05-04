@@ -18,7 +18,7 @@
         {{self.error.message}}
     </div>
 
-    <div ng-hide="self.loading">
+    <div>
         <div>
             <form>
                 <div class="form-group">
@@ -27,17 +27,21 @@
                            class="form-control"
                            id="trackingId"
                            placeholder="UA-000000-01"
+                           ng-disabled="self.loading"
                            ng-model="self.analyticSettings.trackingId">
                 </div>
                 <button type="button"
                         class="btn btn-primary"
-                        ng-disabled="!self.analyticSettings.trackingId"
-                        ng-click="self.saveAnalyticSettings()">{{self.translations["Submit"]}}
+                        ng-disabled="!self.analyticSettings.trackingId || self.loading"
+                        ng-click="self.saveAnalyticSettings()">
+                    {{self.translations["Submit"]}}
                 </button>
                 <button type="button"
                         class="btn btn-default"
-                        ng-hide="self.isNewAnalyticSettings"
-                        ng-click="self.deleteAnalyticSettings()">{{self.translations["Remove"]}}
+                        ng-click="self.deleteAnalyticSettings()"
+                        ng-disabled="self.loading"
+                        ng-hide="self.isNewAnalyticSettings">
+                    {{self.translations["Remove"]}}
                 </button>
             </form>
         </div>
