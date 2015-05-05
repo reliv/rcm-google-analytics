@@ -10,6 +10,7 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
             self.loading = true;
             self.analyticSettings = {};
             self.error = null;
+            self.hasAccess = false;
 
             self.translations = {
                 "Loading.." : "Loading..",
@@ -53,6 +54,7 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
             var onGetAnalyticSettingsSuccess = function (data) {
 
                 self.isNewAnalyticSettings = false;
+                self.hasAccess = true;
                 self.analyticSettings = data.data;
             };
 
@@ -65,6 +67,10 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
                 if(data.code == 404){
                     self.isNewAnalyticSettings = true;
                     return;
+                }
+
+                if(data.code != 401){
+                    self.hasAccess = true;
                 }
 
                 self.error = data;

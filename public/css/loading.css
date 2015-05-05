@@ -36,6 +36,7 @@
 
     -animation: spin .8s infinite linear;
     -webkit-animation: spin2 .8s infinite linear;
+    -moz-animation: spin2 .8s linear infinite;
 }
 
 .loading .loading-indicator:before {
@@ -54,6 +55,12 @@
     }
     to {
         -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spin2 {
+    100% {
+        -moz-transform: rotate(360deg);
     }
 }
 

@@ -9,7 +9,7 @@ if ($this->model->hasTracking()) {
 
     echo "\nNo Analytics set for this site\n";
 }
-\Doctrine\Common\Util\Debug::dump($this->model->toArray());
+var_export($this->model->toArray());
 ?>
 </pre>
 <!-- </RCM Google Analytics TEST> -->
