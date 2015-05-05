@@ -62,7 +62,7 @@ class RcmGoogleAnalyticsController extends AbstractActionController
 
             $this->response->setStatusCode(401);
 
-            return $this->response;
+            //return $this->response;
         }
 
         $translations = [
@@ -74,6 +74,6 @@ class RcmGoogleAnalyticsController extends AbstractActionController
             "Remove" => $this->translate("Remove")
         ];
 
-        return $translations;
+        return new ViewModel($translations);
     }
 }
