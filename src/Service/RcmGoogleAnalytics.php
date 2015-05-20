@@ -40,7 +40,7 @@ class RcmGoogleAnalytics
     public function __construct(
         EntityManager $entityManager,
         Site $currentSite
-    ){
+    ) {
         $this->entityManager = $entityManager;
         $this->currentSite = $currentSite;
     }
@@ -90,7 +90,6 @@ class RcmGoogleAnalytics
         $analytics = $this->getRepository()->findOneBy(['site' => $site]);
 
         if (!empty($analytics)) {
-
             return $analytics;
         }
 
@@ -127,7 +126,7 @@ class RcmGoogleAnalytics
     {
         $entity = $this->getCurrentAnalyticEntity(new RcmGoogleAnalyticsEntity());
 
-        if($entity->getVerificationCode() !== $verificationCode){
+        if ($entity->getVerificationCode() !== $verificationCode) {
             return $default;
         }
 

@@ -39,8 +39,8 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      */
     public function __construct(
         $config,
-        RcmGoogleAnalytics $rcmGoogleAnalyticsService)
-    {
+        RcmGoogleAnalytics $rcmGoogleAnalyticsService
+    ) {
         $this->config = $config;
         $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
     }
@@ -52,8 +52,7 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      */
     public function __invoke()
     {
-        if(!$this->config['use-analytics'])
-        {
+        if (!$this->config['use-analytics']) {
             return "";
         }
 
@@ -70,5 +69,4 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 
         return $output;
     }
-
 }

@@ -50,7 +50,6 @@ class RcmGoogleAnalyticsResourceProvider extends ResourceProvider
     public function getResources()
     {
         if (empty($this->resources)) {
-
             $this->buildResources();
         }
 
@@ -71,7 +70,6 @@ class RcmGoogleAnalyticsResourceProvider extends ResourceProvider
     {
 
         if (empty($this->resources)) {
-
             $this->buildResources();
         }
 
