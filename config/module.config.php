@@ -1,6 +1,6 @@
 <?php
 return [
-    /**
+    /*
      * Configuration
      */
     'Reliv\RcmGoogleAnalytics' => [
@@ -16,7 +16,7 @@ return [
             'privilege' => 'admin',
         ],
     ],
-    /**
+    /*
      * Config for RcmUser ACL Resource Provider
      * - ONLY used if configured for
      * 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory'
@@ -29,7 +29,7 @@ return [
             ],
         ],
     ],
-    /**
+    /*
      * Doctrine config
      */
     'doctrine' => [
@@ -57,29 +57,33 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            /**
+            /*
              * Service
              */
-            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory',
-            /**
+            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics'
+                => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory',
+            /*
              * RcmUser Resource Provider
              */
-            'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider' => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory',
-            /**
+            'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider'
+                => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory',
+            /*
              * Set access based on RcmUser Acl Resources
              * Configured by acl-resource-config config settings
              * By default will use 'RcmGoogleAnalyticsResourceProvider'
              */
-            'Reliv\RcmGoogleAnalytics\AnalyticsAccess' => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory',
+            'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
+                => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory',
 
             /*
              * Set NO access controls NOT RECOMMENDED
-             *
-            'Reliv\RcmGoogleAnalytics\AnalyticsAccess' => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessAnyFactory',
-             /* */
+             */
+            //'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
+            //  => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessAnyFactory',
+
         ],
     ],
-    /**
+    /*
      * Controllers
      */
     'controllers' => [
@@ -92,7 +96,7 @@ return [
                 'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController'
         ],
     ],
-    /**
+    /*
      * Views
      */
     'view_manager' => [
@@ -106,7 +110,7 @@ return [
             => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsViewHelperFactory',
         ],
     ],
-    /**
+    /*
      * Routes
      */
     'router' => [

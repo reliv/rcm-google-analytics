@@ -5,7 +5,6 @@ namespace Reliv\RcmGoogleAnalytics\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-
 /**
  * Class RcmGoogleAnalyticsController
  *
@@ -59,7 +58,6 @@ class RcmGoogleAnalyticsController extends AbstractActionController
     public function indexAction()
     {
         if (!$this->hasAccess()) {
-
             $this->response->setStatusCode(401);
 
             //return $this->response;

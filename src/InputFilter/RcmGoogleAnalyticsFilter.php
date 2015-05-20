@@ -79,4 +79,4 @@ class RcmGoogleAnalyticsFilter extends InputFilter
             );
         }
     }
-} 
+}

@@ -6,7 +6,6 @@ use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-
 /**
  * Class VerificationController
  *

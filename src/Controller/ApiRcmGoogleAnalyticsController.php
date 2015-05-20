@@ -9,7 +9,6 @@ use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractRestfulController;
 
-
 /**
  * Class ApiRcmGoogleAnalyticsController
  *
@@ -109,7 +108,6 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     public function create($data)
     {
         if (!$this->hasAccess()) {
-
             $this->response->setStatusCode(401);
 
             return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
@@ -129,15 +127,19 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         $inputFilter->setData($data);
 
-        if(!$inputFilter->isValid())
-        {
+        if (!$inputFilter->isValid()) {
             $this->response->setStatusCode(400);
-            return new ApiJsonModel($data, 400, $this->translate('Analytics data is not valid'), $inputFilter->getMessages());
+            return new ApiJsonModel(
+                $data,
+                400,
+                $this->translate('Analytics data is not valid'),
+                $inputFilter->getMessages()
+            );
         }
 
         $entity = new RcmGoogleAnalytics();
 
-        $entity->populate($inputFilter->getValues(),['id', 'site']);
+        $entity->populate($inputFilter->getValues(), ['id', 'site']);
 
         $entity->setSite($this->getCurrentSite());
 
@@ -146,9 +148,13 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         try {
             $entityManager->persist($entity);
             $entityManager->flush($entity);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->response->setStatusCode(400);
-            return new ApiJsonModel($entity, 400, $this->translate('Analytics failed to save') . ': ' . $exception->getMessage());
+            return new ApiJsonModel(
+                $entity,
+                400,
+                $this->translate('Analytics failed to save') . ': ' . $exception->getMessage()
+            );
         }
 
         return new ApiJsonModel($entity);
@@ -169,7 +175,6 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         }
 
         if (!$this->hasAccess()) {
-
             $this->response->setStatusCode(401);
 
             return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
@@ -190,9 +195,13 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         try {
             $entityManager->remove($entity);
             $entityManager->flush($entity);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->response->setStatusCode(400);
-            return new ApiJsonModel($entity, 400, $this->translate('Analytics failed to delete') . ': ' . $exception->getMessage());
+            return new ApiJsonModel(
+                $entity,
+                400,
+                $this->translate('Analytics failed to delete') . ': ' . $exception->getMessage()
+            );
         }
 
         return new ApiJsonModel(null);
@@ -213,7 +222,6 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         }
 
         if (!$this->hasAccess()) {
-
             $this->response->setStatusCode(401);
 
             return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
@@ -250,7 +258,6 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         }
 
         if (!$this->hasAccess()) {
-
             $this->response->setStatusCode(401);
             return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
         }
@@ -270,10 +277,14 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         $inputFilter->setData($data);
 
-        if(!$inputFilter->isValid())
-        {
+        if (!$inputFilter->isValid()) {
             $this->response->setStatusCode(400);
-            return new ApiJsonModel($data, 400, $this->translate('Analytics data is not valid'), $inputFilter->getMessages());
+            return new ApiJsonModel(
+                $data,
+                400,
+                $this->translate('Analytics data is not valid'),
+                $inputFilter->getMessages()
+            );
         }
 
         $entity->populate($inputFilter->getValues(), ['id', 'site']);
@@ -283,12 +294,15 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         try {
             $entityManager->persist($entity);
             $entityManager->flush($entity);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             $this->response->setStatusCode(400);
-            return new ApiJsonModel($entity, 400, $this->translate('Analytics failed to update') . ': ' . $exception->getMessage());
+            return new ApiJsonModel(
+                $entity,
+                400,
+                $this->translate('Analytics failed to update') . ': ' . $exception->getMessage()
+            );
         }
 
         return new ApiJsonModel($entity);
     }
-
 }
