@@ -28,6 +28,10 @@
     "reliv/rcm-user": "0.*",
     "reliv/rcm-translate-api": "0.*"
   },
+  "require-dev": {
+    "phpunit/phpunit": "4.6.*",
+    "squizlabs/php_codesniffer": "2.*"
+  },
   "autoload": {
     "psr-4": {
       "Reliv\\RcmGoogleAnalytics\\": "src/"
