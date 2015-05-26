@@ -4,6 +4,7 @@ namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
 use Zend\View\Helper\AbstractHelper;
+use Zend\View\Model\ViewModel;
 
 /**
  * Class RcmGoogleAnalyticsJsHelper
@@ -33,6 +34,8 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      */
     protected $rcmGoogleAnalyticsService;
 
+    protected $model;
+
     /**
      * @param array              $config
      * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
@@ -54,19 +57,15 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
     {
         if (!$this->config['use-analytics']) {
             return "";
-        }
-
-        $template = __DIR__ . $this->templatePath . $this->config['javascript-view'];
+        };
 
         $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
             new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
         );
 
-        // @todo There might be a better way
-        ob_start();
-        include($template);
-        $output = ob_get_clean();
-
-        return $output;
+        return $this->getView()->partial(
+            $this->config['javascript-view'],
+            array('model' => $this->model)
+        );
     }
 }
