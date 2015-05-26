@@ -34,6 +34,9 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      */
     protected $rcmGoogleAnalyticsService;
 
+    /**
+     * @var object
+     */
     protected $model;
 
     /**

@@ -12,6 +12,11 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
  */
 class Module implements AutoloaderProviderInterface
 {
+    /**
+     * get Autoloader Config
+     *
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return [
@@ -23,6 +28,11 @@ class Module implements AutoloaderProviderInterface
         ];
     }
 
+    /**
+     * getConfig
+     *
+     * @return mixed
+     */
     public function getConfig()
     {
         return include __DIR__ . '/../config/module.config.php';
