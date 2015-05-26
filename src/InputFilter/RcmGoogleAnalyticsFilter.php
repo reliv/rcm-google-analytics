@@ -7,7 +7,7 @@ use Zend\InputFilter\InputFilter;
 /**
  * Class RcmGoogleAnalyticsFilter
  *
- * RcmGoogleAnalyticsFilter
+ * RcmGoogleAnalyticsFilter InputFiler
  *
  * PHP version 5
  *
