@@ -46,16 +46,6 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * get EntityManager
-     *
-     * @return EntityManager|null
-     */
-    protected function getEntityManager()
-    {
-        return $this->entityManager;
-    }
-
-    /**
      * get RcmGoogleAnalytics Repository
      *
      * @return \Doctrine\ORM\EntityRepository|\Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics
@@ -106,10 +96,6 @@ class RcmGoogleAnalytics
     public function getCurrentAnalyticEntity($default = null)
     {
         $site = $this->getCurrentSite();
-
-        if (empty($site)) {
-            return $default;
-        }
 
         return $this->getSiteAnalyticEntity($site, $default);
     }

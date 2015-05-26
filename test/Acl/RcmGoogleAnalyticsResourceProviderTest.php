@@ -32,6 +32,12 @@ class RcmGoogleAnalyticsResourceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new RcmGoogleAnalyticsResourceProvider(null);
 
+        $resource
+            = $provider->getResource(RcmGoogleAnalyticsResourceProvider::RESOURCE_ID);
+
+        $this->assertInstanceOf('Zend\Permissions\Acl\Resource\ResourceInterface',
+            $resource);
+
         $resources = $provider->getResources();
 
         $this->assertTrue(is_array($resources));
@@ -39,10 +45,6 @@ class RcmGoogleAnalyticsResourceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(RcmGoogleAnalyticsResourceProvider::RESOURCE_ID,
             $resources);
 
-        $resource
-            = $provider->getResource(RcmGoogleAnalyticsResourceProvider::RESOURCE_ID);
 
-        $this->assertInstanceOf('Zend\Permissions\Acl\Resource\ResourceInterface',
-            $resource);
     }
 }
