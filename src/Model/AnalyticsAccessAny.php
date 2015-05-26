@@ -21,7 +21,7 @@ namespace Reliv\RcmGoogleAnalytics\Model;
 class AnalyticsAccessAny implements AnalyticsAccessInterface
 {
     /**
-     * hasAccess
+     * has Access
      *
      * @return boolean
      */

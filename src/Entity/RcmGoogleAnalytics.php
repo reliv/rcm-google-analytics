@@ -69,7 +69,7 @@ class RcmGoogleAnalytics extends ApiBase
     protected $site;
 
     /**
-     * getId
+     * get Id
      *
      * @return int
      */
@@ -79,7 +79,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * setId
+     * set Id
      *
      * @param $id
      *
@@ -91,7 +91,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * getTrackingId
+     * get TrackingId
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * setTrackingId
+     * set TrackingId
      *
      * @param $trackingId
      *
@@ -113,7 +113,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * hasTracking
+     * has Tracking
      *
      * @return bool
      */
@@ -123,7 +123,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * getVerificationCode
+     * get VerificationCode
      *
      * @return string
      */
@@ -133,7 +133,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * setVerificationCode
+     * set VerificationCode
      *
      * @param string $verificationCode
      *
@@ -145,7 +145,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * hasVerificationCode
+     * has VerificationCode
      *
      * @return bool
      */
@@ -155,7 +155,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * getSite
+     * get Site Id
      *
      * @return \Rcm\Entity\Site
      */
@@ -165,7 +165,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * getSite
+     * get Site
      *
      * @return \Rcm\Entity\Site
      */
@@ -175,7 +175,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * setSite
+     * set Site
      *
      * @param \Rcm\Entity\Site $site
      *
@@ -188,7 +188,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * getHost
+     * get Host
      *
      * @return string
      */
@@ -198,7 +198,7 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * toArray
+     * Return this as array format
      *
      * @return array
      */

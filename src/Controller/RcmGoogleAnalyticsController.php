@@ -37,7 +37,7 @@ class RcmGoogleAnalyticsController extends AbstractActionController
     }
 
     /**
-     * hasAccess
+     * hasAccess - Use Analytics Access to check access
      *
      * @return mixed
      */
@@ -51,7 +51,7 @@ class RcmGoogleAnalyticsController extends AbstractActionController
     }
 
     /**
-     * indexAction
+     * index Action
      *
      * @return ViewModel
      */

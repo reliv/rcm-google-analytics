@@ -34,6 +34,7 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
     protected $rcmGoogleAnalyticsService;
 
     /**
+     * __construct
      * @param array              $config
      * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
      */

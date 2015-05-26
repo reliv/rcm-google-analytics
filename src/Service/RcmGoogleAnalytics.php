@@ -46,7 +46,7 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * getEntityManager
+     * get EntityManager
      *
      * @return EntityManager|null
      */
@@ -56,7 +56,7 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * getRepository
+     * get RcmGoogleAnalytics Repository
      *
      * @return \Doctrine\ORM\EntityRepository|\Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics
      */
@@ -68,7 +68,7 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * getCurrentSite
+     * get Current Site
      *
      * @return null|\Rcm\Entity\Site
      */
@@ -78,7 +78,7 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * getSiteAnalyticEntity
+     * Get Analytic Entity for current a site
      *
      * @param Site $site
      * @param null $default
@@ -97,7 +97,7 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * getCurrentAnalyticEntity
+     * Get Analytic Entity for current site
      *
      * @param null $default
      *
@@ -115,7 +115,8 @@ class RcmGoogleAnalytics
     }
 
     /**
-     * getCurrentAnalyticEntityWithVerifyCode
+     * get Current Analytic Entity With VerifyCode
+     * This can be used if verification code is needed
      *
      * @param string $verificationCode
      * @param null $default

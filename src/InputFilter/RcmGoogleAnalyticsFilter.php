@@ -22,7 +22,7 @@ use Zend\InputFilter\InputFilter;
 class RcmGoogleAnalyticsFilter extends InputFilter
 {
     /**
-     * @var array
+     * @var array Filter Config
      */
     protected $filterConfig = [
             //'id' => [], // unused
@@ -55,7 +55,7 @@ class RcmGoogleAnalyticsFilter extends InputFilter
         ];
 
     /**
-     *
+     * __construct
      */
     public function __construct()
     {
