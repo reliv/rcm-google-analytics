@@ -23,6 +23,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class AnalyticsAccessAnyFactory implements FactoryInterface
 {
+    /**
+     * create AnalyticsAccessAny
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return AnalyticsAccessAny
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         return new AnalyticsAccessAny();

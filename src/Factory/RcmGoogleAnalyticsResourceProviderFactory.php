@@ -23,6 +23,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class RcmGoogleAnalyticsResourceProviderFactory implements FactoryInterface
 {
+    /**
+     * create RcmGoogleAnalyticsResourceProvider
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return RcmGoogleAnalyticsResourceProvider
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         return new RcmGoogleAnalyticsResourceProvider(null);

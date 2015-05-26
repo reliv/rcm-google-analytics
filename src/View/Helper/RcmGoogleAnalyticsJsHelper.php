@@ -4,7 +4,6 @@ namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
 use Zend\View\Helper\AbstractHelper;
-use Zend\View\Model\ViewModel;
 
 /**
  * Class RcmGoogleAnalyticsJsHelper
@@ -34,9 +33,13 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      */
     protected $rcmGoogleAnalyticsService;
 
+    /**
+     * @var object
+     */
     protected $model;
 
     /**
+     * __construct
      * @param array              $config
      * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
      */

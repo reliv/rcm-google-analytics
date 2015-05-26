@@ -5,7 +5,7 @@ namespace Reliv\RcmGoogleAnalytics\Model;
 /**
  * Class AnalyticsAccessInterface
  *
- * AnalyticsAccessInterface
+ * Defines the rules for access to change analytic settings for a site
  *
  * PHP version 5
  *
@@ -20,7 +20,7 @@ namespace Reliv\RcmGoogleAnalytics\Model;
 interface AnalyticsAccessInterface
 {
     /**
-     * hasAccess
+     * has Access
      *
      * @return boolean
      */

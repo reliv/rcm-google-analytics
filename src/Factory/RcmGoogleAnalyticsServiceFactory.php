@@ -23,6 +23,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class RcmGoogleAnalyticsServiceFactory implements FactoryInterface
 {
+    /**
+     * create RcmGoogleAnalytics
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return RcmGoogleAnalytics
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');

@@ -28,8 +28,9 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 {
 
     const CURRENT_ID = 'current';
+
     /**
-     * getEntityManager
+     * get EntityManager
      *
      * @return \Doctrine\ORM\EntityManagerInterface
      */
@@ -39,7 +40,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     }
 
     /**
-     * getCurrentSite
+     * get CurrentSite
      *
      * @return \Rcm\Entity\Site
      */
@@ -49,7 +50,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     }
 
     /**
-     * translate
+     * translate using MVC translator
      *
      * @param string $string
      *
@@ -63,7 +64,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     }
 
     /**
-     * getRcmGoogleAnalyticsService
+     * get RcmGoogleAnalyticsService
      *
      * @return \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics
      */
@@ -75,7 +76,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     }
 
     /**
-     * getCurrentUser
+     * get CurrentUser from service
      *
      * @return \RcmUser\User\Entity\User
      */
@@ -85,7 +86,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     }
 
     /**
-     * hasAccess
+     * hasAccess - Use Analytics Access to check access
      *
      * @return mixed
      */
@@ -241,9 +242,6 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
     /**
      * Respond to the PATCH method
-     *
-     * Not marked as abstract, as that would introduce a BC break
-     * (introduced in 2.1.0); instead, raises an exception if not implemented.
      *
      * @param  $id
      * @param  $data

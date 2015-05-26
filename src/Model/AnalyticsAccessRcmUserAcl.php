@@ -5,7 +5,7 @@ namespace Reliv\RcmGoogleAnalytics\Model;
 /**
  * Class AnalyticsAccessRcmUserAcl
  *
- * AnalyticsAccessRcmUserAcl
+ * Defines the rules for access to change analytic settings for a site and user
  *
  * PHP version 5
  *
@@ -41,6 +41,8 @@ class AnalyticsAccessRcmUserAcl implements AnalyticsAccessInterface
     protected $providerId;
 
     /**
+     * __construct
+     *
      * @param        $rcmUserService
      * @param string $privilege
      * @param string $resourceId
@@ -59,7 +61,7 @@ class AnalyticsAccessRcmUserAcl implements AnalyticsAccessInterface
     }
 
     /**
-     * hasAccess
+     * has Access
      *
      * @return boolean
      */

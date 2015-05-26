@@ -23,6 +23,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class AnalyticsAccessRcmUserAclFactory implements FactoryInterface
 {
+    /**
+     * create AnalyticsAccessRcmUserAcl
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     *
+     * @return AnalyticsAccessRcmUserAcl
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');

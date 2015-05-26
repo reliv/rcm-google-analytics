@@ -8,7 +8,7 @@ use RcmUser\Acl\Provider\ResourceProvider;
 /**
  * Class RcmGoogleAnalyticsResourceProvider
  *
- * LongDescHere
+ * Resource provider for RcmUser
  *
  * PHP version 5
  *

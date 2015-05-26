@@ -24,7 +24,7 @@ use Zend\View\Model\ViewModel;
 class VerificationController extends AbstractActionController
 {
     /**
-     * getRcmGoogleAnalyticsService
+     * get RcmGoogleAnalyticsService
      *
      * @return \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics
      */
@@ -36,7 +36,7 @@ class VerificationController extends AbstractActionController
     }
 
     /**
-     * getVerificationCodeFromRoute
+     * get Verification Code From Route Match
      *
      * @return mixed
      */
