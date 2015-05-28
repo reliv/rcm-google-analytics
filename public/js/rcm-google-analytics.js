@@ -70,10 +70,10 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
 
                 if(data.code != 401){
                     self.hasAccess = true;
-                    return;
+                } else {
+                    self.hasAccess = false;
+                    self.error = data;
                 }
-
-                //self.error = data;
             };
 
             /**
