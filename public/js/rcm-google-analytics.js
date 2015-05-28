@@ -66,14 +66,16 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
 
                 if(data.code == 404){
                     self.isNewAnalyticSettings = true;
-                    return;
                 }
 
                 if(data.code != 401){
                     self.hasAccess = true;
                 }
 
-                self.error = data;
+                if(data.code == 401){
+                    self.hasAccess = false;
+                    self.error = data;
+                }
             };
 
             /**
