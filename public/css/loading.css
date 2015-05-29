@@ -1,17 +1,19 @@
-.loading {
+/* <rcm-google-analytics loading> */
+
+.rcm-google-analytics .loading {
     /*overflow: hidden;*/
     padding-top: 5em;
     position: fixed; left: 0;
     width: 100%;
 }
 
-.loading .loading-container {
+.rcm-google-analytics .loading .loading-container {
     float: left;
     position: relative;
     left: 50%;
 }
 
-.loading .loading-content {
+.rcm-google-analytics .loading .loading-content {
     background-color: #FFFFFF;
     float: left;
     padding: .5em 1em;
@@ -21,7 +23,7 @@
     box-shadow: .2em .2em .1em rgba(0,0,0,.10);
 }
 
-.loading .loading-indicator {
+.rcm-google-analytics .loading .loading-indicator {
     /* Bootstrap glyphicon */
     position: relative;
     top: 1px;
@@ -39,13 +41,13 @@
     -moz-animation: spin2 .8s linear infinite;
 }
 
-.loading .loading-indicator:before {
+.rcm-google-analytics .loading .loading-indicator:before {
     /* Bootstrap glyphicon refresh */
     display: inline-block;
     content: "\e031";
 }
 
-.loading .loading-message {
+.rcm-google-analytics .rcm-google-analytics .loading .loading-message {
     display: inline-block;
 }
 
@@ -72,3 +74,5 @@
         transform: scale(1) rotate(360deg);
     }
 }
+
+/* </rcm-google-analytics loading> */
