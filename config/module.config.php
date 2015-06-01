@@ -152,10 +152,10 @@ return [
                 'modules/rcm-google-analytics/' => __DIR__ . '/../public/',
             ],
             'collections' => [
-                'modules/rcm/module.js' => [
+                'modules/rcm/modules.js' => [
                     'modules/rcm-google-analytics/js/rcm-google-analytics.js',
                 ],
-                'modules/rcm/module.css' => [
+                'modules/rcm/modules.css' => [
                     'modules/rcm-google-analytics/css/loading.css',
                     'modules/rcm-google-analytics/css/admin-analytics.css'
                 ],
