@@ -1,3 +1,6 @@
+/**
+ * rcm-google-analytics
+ */
 angular.module('rcmGoogleAnalytics', ['rcmApi'])
     .controller(
     'rcmGoogleAnalyticsAdminController',
