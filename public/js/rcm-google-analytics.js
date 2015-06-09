@@ -1,12 +1,12 @@
 /**
  * rcm-google-analytics
  */
-angular.module('rcmGoogleAnalytics', ['rcmApi'])
+angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
     .controller(
     'rcmGoogleAnalyticsAdminController',
     [
-        '$log', 'rcmApiService',
-        function ($log, rcmApiService) {
+        '$log', 'rcmApiService', '$translate',
+        function ($log, rcmApiService, $translate) {
 
             var self = this;
 
@@ -15,40 +15,21 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
             self.error = null;
             self.hasAccess = false;
 
-            self.translations = {
-                "Loading.." : "Loading..",
-                "Google Analytics Tracking Id" : "Google Analytics Tracking Id",
-                "Submit" : "Submit",
-                "Remove" : "Remove"
-            };
+            /* translations:
+                "Loading.."
+                "Google Analytics Tracking Id"
+                "Submit"
+                "Remove"
+            */
 
             self.isNewAnalyticSettings = true;
 
             var url = '/api/rcm-google-analytics/current';
 
-            var translationUrl = '/api/rcm-translate-api/default';
-
             var onLoadingChange = function (loading) {
                 self.loading = loading;
             };
 
-            /**
-             * onGetTranslationsSuccess
-             * @param data
-             */
-            var onGetTranslationsSuccess = function (data) {
-                self.translations = data;
-
-                self.initAnalytics();
-            };
-
-            /**
-             * onGetTranslationsError
-             * @param data
-             */
-            var onGetTranslationsError = function (data) {
-                self.initAnalytics();
-            };
 
             /**
              * onGetAnalyticSettingsSuccess
@@ -67,15 +48,15 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
              */
             var onGetAnalyticSettingsError = function (data) {
 
-                if(data.code == 404){
+                if (data.code == 404) {
                     self.isNewAnalyticSettings = true;
                 }
 
-                if(data.code != 401){
+                if (data.code != 401) {
                     self.hasAccess = true;
                 }
 
-                if(data.code == 401){
+                if (data.code == 401) {
                     self.hasAccess = false;
                     self.error = data;
                 }
@@ -109,23 +90,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
                 self.isNewAnalyticSettings = true;
                 self.analyticSettings = {};
             };
-
-            /**
-             *
-             */
-            var getTranslations = function() {
-
-                var apiParams = {
-                    url: translationUrl,
-                    params: self.translations,
-                    loading: onLoadingChange,
-                    success: onGetTranslationsSuccess,
-                    error: onGetTranslationsError
-                };
-
-                rcmApiService.get(apiParams);
-            };
-
 
             /**
              * getAnalyticSettings
@@ -162,7 +126,7 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
                     error: onSaveAnalyticSettingsError
                 };
 
-                if(self.isNewAnalyticSettings) {
+                if (self.isNewAnalyticSettings) {
 
                     rcmApiService.post(apiParams);
                 } else {
@@ -193,8 +157,7 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
             /**
              * initAnalytics
              */
-            self.initAnalytics = function()
-            {
+            self.initAnalytics = function () {
                 self.getAnalyticSettings();
             };
 
@@ -203,7 +166,7 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
              */
             self.init = function () {
 
-                getTranslations();
+                self.initAnalytics();
             };
 
 
@@ -213,4 +176,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi'])
     ]
 );
 
-rcm.addAngularModule('rcmGoogleAnalytics');
+if (typeof rcm !== 'undefined') {
+    rcm.addAngularModule('rcmGoogleAnalytics');
+}
