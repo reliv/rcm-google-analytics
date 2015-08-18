@@ -27,6 +27,15 @@
                            ng-disabled="self.loading"
                            ng-model="self.analyticSettings.trackingId">
                 </div>
+                <div class="form-group">
+                    <label for="verificationCode">{{"Google Analytics Verification Code" | translate}}</label>
+                    <input type="text"
+                           class="form-control"
+                           id="verificationCode"
+                           placeholder=""
+                           ng-disabled="self.loading"
+                           ng-model="self.analyticSettings.verificationCode">
+                </div>
                 <button type="button"
                         class="btn btn-primary"
                         ng-disabled="!self.analyticSettings.trackingId || self.loading"
