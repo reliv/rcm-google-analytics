@@ -54,10 +54,20 @@ class VerificationController extends AbstractActionController
     {
         $requestVerificationCode = $this->getVerificationCodeFromRoute();
 
-        $model = $this->getRcmGoogleAnalyticsService()->getCurrentAnalyticEntityWithVerifyCode(
-            $requestVerificationCode,
-            new RcmGoogleAnalytics()
-        );
+        $model = $this->getRcmGoogleAnalyticsService()
+            ->getCurrentAnalyticEntityWithVerifyCode(
+                $requestVerificationCode,
+                new RcmGoogleAnalytics()
+            );
+
+        $verificationCode = $model->getVerificationCode();
+
+        if (empty($verificationCode)) {
+            $response = $this->getResponse();
+            $response->setStatusCode(404);
+
+            return $response;
+        }
 
         $view = new ViewModel(['model' => $model]);
 
