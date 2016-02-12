@@ -5,8 +5,8 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
     .controller(
     'rcmGoogleAnalyticsAdminController',
     [
-        '$log', 'rcmApiService', '$translate',
-        function ($log, rcmApiService, $translate) {
+        '$log', 'rcmApiService', 'translateFilter',
+        function ($log, rcmApiService, translateFilter) {
 
             var self = this;
 
