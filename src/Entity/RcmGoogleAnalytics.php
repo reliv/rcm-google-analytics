@@ -190,7 +190,7 @@ class RcmGoogleAnalytics extends ApiBase
     /**
      * get Host
      *
-     * @return string
+     * @return null|string
      */
     public function getHost()
     {
