@@ -62,6 +62,13 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
             $entity->getVerificationCode());
         $this->assertTrue($entity->hasVerificationCode());
 
+        $this->assertNull($entity->getHost());
+
+        $siteNoDomain = new Site();
+        $siteNoDomain->setSiteId(3311);
+        $entity->setSite($siteNoDomain);
+        $this->assertNull($entity->getHost());
+
         $entity->setSite($data['site']);
         $this->assertEquals($data['site'], $entity->getSite());
         $this->assertEquals($data['site']->getSiteId(), $entity->getSiteId());

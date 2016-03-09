@@ -87,7 +87,7 @@ class RcmGoogleAnalytics extends ApiBase
      */
     public function setId($id)
     {
-        $this->id =(int)  $id;
+        $this->id = (int)$id;
     }
 
     /**
@@ -109,7 +109,7 @@ class RcmGoogleAnalytics extends ApiBase
      */
     public function setTrackingId($trackingId)
     {
-        $this->trackingId = (string) $trackingId;
+        $this->trackingId = (string)$trackingId;
     }
 
     /**
@@ -141,7 +141,7 @@ class RcmGoogleAnalytics extends ApiBase
      */
     public function setVerificationCode($verificationCode)
     {
-        $this->verificationCode = (string) $verificationCode;
+        $this->verificationCode = (string)$verificationCode;
     }
 
     /**
@@ -190,11 +190,20 @@ class RcmGoogleAnalytics extends ApiBase
     /**
      * get Host
      *
-     * @return string
+     * @return null|string
      */
     public function getHost()
     {
-        return $this->site->getDomain()->getDomainName();
+        if (empty($this->site)) {
+            return null;
+        }
+
+        $domain = $this->site->getDomain();
+        if (empty($domain->getDomainName())) {
+            return null;
+        }
+
+        return $domain->getDomainName();
     }
 
     /**
