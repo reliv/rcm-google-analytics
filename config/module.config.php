@@ -119,7 +119,7 @@ return [
                 'pages' => [
                     'Google Analytics' => [
                         'label' => 'Google Analytics',
-                        'class' => 'RcmAdminMenu rcmStandardDialog',
+                        'class' => 'rcmAdminMenu rcmStandardDialog',
                         'uri' => '/modules/rcm-google-analytics/admin-analytics.html',
                         'title' => 'Google Analytics Settings',
                     ]
