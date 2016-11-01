@@ -18,8 +18,12 @@
     <div ng-show="self.hasAccess">
         <div>
             <form>
+                <br>
                 <div class="form-group">
-                    <label for="trackingId">{{"Google Analytics Tracking Id" | translate}}</label>
+                    <label for="trackingId"><h3>{{"Google Analytics Tracking Id" | translate}}</h3></label>
+                    <p>
+                        {{'This is a code that starts with "UA-". One way to get this is to look at the source code that google tells you to put on your website. Inside it you will see "UA-something" in quotes. Copy and paste that here.' | translate}}
+                    </p>
                     <input type="text"
                            class="form-control"
                            id="trackingId"
@@ -27,8 +31,12 @@
                            ng-disabled="self.loading"
                            ng-model="self.analyticSettings.trackingId">
                 </div>
+                <br><br>
                 <div class="form-group">
-                    <label for="verificationCode">{{"Google Analytics Verification Code" | translate}}</label>
+                    <label for="verificationCode"><h3>{{"Google Analytics Verification Code" | translate}}</h3></label>
+                    <p>
+                        {{'For site verification google tells you to download a file and upload it to your website. Look at the file google says to upload to your website. If the file google wants you to upload to your site is named google897453eca4006f4b.html, you would enter 897453eca4006f4b in this form field.' | translate}}
+                    </p>
                     <input type="text"
                            class="form-control"
                            id="verificationCode"
@@ -36,9 +44,10 @@
                            ng-disabled="self.loading"
                            ng-model="self.analyticSettings.verificationCode">
                 </div>
+                <br><br>
                 <button type="button"
                         class="btn btn-primary"
-                        ng-disabled="!self.analyticSettings.trackingId || self.loading"
+                        ng-disabled="self.loading"
                         ng-click="self.saveAnalyticSettings()">
                     {{"Submit" | translate}}
                 </button>
