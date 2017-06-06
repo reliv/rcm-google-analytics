@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label for="trackingId"><h3>{{"Google Analytics Tracking Id" | translate}}</h3></label>
                     <p>
-                        {{'This is a code that starts with "UA-". One way to get this is to look at the source code that google tells you to put on your website. Inside it you will see "UA-something" in quotes. Copy and paste that here.' | translate}}
+                        {{'Get this from the Google Analytics dashboard. This is a code that starts with "UA-".' | translate}}
                     </p>
                     <input type="text"
                            class="form-control"
@@ -33,9 +33,9 @@
                 </div>
                 <br><br>
                 <div class="form-group">
-                    <label for="verificationCode"><h3>{{"Google Analytics Verification Code" | translate}}</h3></label>
+                    <label for="verificationCode"><h3>{{"Google Site Verification Code" | translate}}</h3></label>
                     <p>
-                        {{'For site verification google tells you to download a file and upload it to your website. Look at the file google says to upload to your website. If the file google wants you to upload to your site is named google897453eca4006f4b.html, you would enter 897453eca4006f4b in this form field.' | translate}}
+                        {{'THIS IS NOT REQUIRED FOR GOOGLE ANALYTICS. LEAVE THIS BLANK UNLESS YOU KNOW YOU NEED IT FOR SOME OTHER GOOGLE SERVICE. For site verification google tells you to download a file and upload it to your website. Look at the file google says to upload to your website. If the file google wants you to upload to your site is named google897453eca4006f4b.html, you would enter 897453eca4006f4b in this form field.' | translate}}
                     </p>
                     <input type="text"
                            class="form-control"
@@ -49,15 +49,15 @@
                         class="btn btn-primary"
                         ng-disabled="self.loading"
                         ng-click="self.saveAnalyticSettings()">
-                    {{"Submit" | translate}}
+                    {{"Save" | translate}}
                 </button>
-                <button type="button"
-                        class="btn btn-default"
-                        ng-click="self.deleteAnalyticSettings()"
-                        ng-disabled="self.loading"
-                        ng-hide="self.isNewAnalyticSettings">
-                    {{"Remove" | translate}}
-                </button>
+                <!--<button type="button"-->
+                        <!--class="btn btn-default"-->
+                        <!--ng-click="self.deleteAnalyticSettings()"-->
+                        <!--ng-disabled="self.loading"-->
+                        <!--ng-hide="self.isNewAnalyticSettings">-->
+                    <!--{{"Clear Google Settings" | translate}}-->
+                <!--</button>-->
             </form>
         </div>
     </div>
