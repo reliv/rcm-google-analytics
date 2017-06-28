@@ -199,7 +199,8 @@ class RcmGoogleAnalytics extends AbstractApiModel
         }
 
         $domain = $this->site->getDomain();
-        if (empty($domain->getDomainName())) {
+
+        if (empty($domain) || empty($domain->getDomainName())) {
             return null;
         }
 
