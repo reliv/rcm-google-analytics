@@ -2,8 +2,8 @@
 
 namespace Reliv\RcmGoogleAnalytics\Factory;
 
+use Interop\Container\ContainerInterface;
 use Reliv\RcmGoogleAnalytics\Model\AnalyticsAccessRcmUserAcl;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -21,19 +21,19 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class AnalyticsAccessRcmUserAclFactory implements FactoryInterface
+class AnalyticsAccessRcmUserAclFactory
 {
     /**
-     * create AnalyticsAccessRcmUserAcl
+     * __invoke
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param $container ContainerInterface|ServiceLocatorInterface
      *
      * @return AnalyticsAccessRcmUserAcl
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke($container)
     {
-        $rcmUserService = $serviceLocator->get('RcmUser\Service\RcmUserService');
-        $config = $serviceLocator->get('config');
+        $rcmUserService = $container->get('RcmUser\Service\RcmUserService');
+        $config = $container->get('config');
 
         $resourceConfig = $config['Reliv\RcmGoogleAnalytics']['acl-resource-config'];
 

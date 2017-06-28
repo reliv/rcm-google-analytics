@@ -31,7 +31,7 @@ class VerificationController extends AbstractActionController
     protected function getRcmGoogleAnalyticsService()
     {
         return $this->getServiceLocator()->get(
-            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics'
+            \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class
         );
     }
 

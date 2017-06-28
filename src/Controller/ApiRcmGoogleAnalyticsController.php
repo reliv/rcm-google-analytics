@@ -1,12 +1,10 @@
 <?php
 
-
 namespace Reliv\RcmGoogleAnalytics\Controller;
 
 use Rcm\View\Model\ApiJsonModel;
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
-use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractRestfulController;
 
 /**
@@ -46,7 +44,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      */
     protected function getCurrentSite()
     {
-        return $this->serviceLocator->get('Rcm\Service\CurrentSite');
+        return $this->serviceLocator->get(\Rcm\Service\CurrentSite::class);
     }
 
     /**
@@ -71,7 +69,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     protected function getRcmGoogleAnalyticsService()
     {
         return $this->getServiceLocator()->get(
-            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics'
+            \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class
         );
     }
 
@@ -93,7 +91,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     protected function hasAccess()
     {
         $accessModel = $this->serviceLocator->get(
-            'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
+            \Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
         );
 
         return $accessModel->hasAccess();
@@ -120,6 +118,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         if (!empty($entity)) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel($entity, 400, $this->translate('Analytics already exist for this site'));
         }
 
@@ -130,6 +129,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         if (!$inputFilter->isValid()) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel(
                 $data,
                 400,
@@ -151,6 +151,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $entityManager->flush($entity);
         } catch (\Exception $exception) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel(
                 $entity,
                 400,
@@ -172,6 +173,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     {
         if ($id !== self::CURRENT_ID) {
             $this->response->setStatusCode(404);
+
             return $this->response;
         }
 
@@ -188,6 +190,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         if (empty($entity)) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel($entity, 400, $this->translate('Analytics do not exist for this site'));
         }
 
@@ -198,6 +201,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $entityManager->flush($entity);
         } catch (\Exception $exception) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel(
                 $entity,
                 400,
@@ -219,6 +223,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     {
         if ($id !== self::CURRENT_ID) {
             $this->response->setStatusCode(404);
+
             return $this->response;
         }
 
@@ -234,6 +239,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         if (empty($entity)) {
             $this->response->setStatusCode(404);
+
             return new ApiJsonModel($entity, 404, $this->translate('Analytics do not exist for this site'));
         }
 
@@ -252,11 +258,13 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     {
         if ($id !== self::CURRENT_ID) {
             $this->response->setStatusCode(404);
+
             return $this->response;
         }
 
         if (!$this->hasAccess()) {
             $this->response->setStatusCode(401);
+
             return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
         }
 
@@ -267,6 +275,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         if (empty($entity)) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel($entity, 400, $this->translate('Analytics do not exist for this site'));
         }
 
@@ -277,6 +286,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 
         if (!$inputFilter->isValid()) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel(
                 $data,
                 400,
@@ -294,6 +304,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $entityManager->flush($entity);
         } catch (\Exception $exception) {
             $this->response->setStatusCode(400);
+
             return new ApiJsonModel(
                 $entity,
                 400,

@@ -22,12 +22,15 @@
   ],
   "require": {
     "php": ">=5.4",
-    "zendframework/zendframework": "2.*",
     "doctrine/doctrine-orm-module": "0.* || 1.*",
     "rcm/core": "^1.20.0",
     "rcm/core-js": "^1.0.0",
+    "rcm/i18n": "1.*",
     "rcm/user": "1.*",
-    "rcm/i18n": "1.*"
+    "zendframework/zend-mvc": "2.*",
+    "zendframework/zend-view": "2.*",
+    "zendframework/zend-servicemanager": "2.*",
+    "zendframework/zend-inputfilter": "2.*"
   },
   "require-dev": {
     "phpunit/phpunit": "5.*",

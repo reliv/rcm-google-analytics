@@ -2,9 +2,10 @@
 
 namespace Reliv\RcmGoogleAnalytics\Factory;
 
+use Interop\Container\ContainerInterface;
 use Reliv\RcmGoogleAnalytics\View\Helper\RcmGoogleAnalyticsJsHelper;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\HelperPluginManager;
 
 /**
  * Class RcmGoogleAnalyticsViewHelperFactory
@@ -21,21 +22,24 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class RcmGoogleAnalyticsViewHelperFactory implements FactoryInterface
+class RcmGoogleAnalyticsViewHelperFactory
 {
     /**
-     * create RcmGoogleAnalyticsJsHelper
+     * __invoke
      *
-     * @param ServiceLocatorInterface $manager
+     * @param $container ContainerInterface|ServiceLocatorInterface|HelperPluginManager
      *
      * @return RcmGoogleAnalyticsJsHelper
      */
-    public function createService(ServiceLocatorInterface $manager)
+    public function __invoke($container)
     {
-        $serviceLocator = $manager->getServiceLocator();
+        // @BC for ZendFramework
+        if ($container instanceof HelperPluginManager) {
+            $container = $container->getServiceLocator();
+        }
 
-        $config = $serviceLocator->get('config');
-        $service = $serviceLocator->get('Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics');
+        $config = $container->get('config');
+        $service = $container->get(\Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class);
 
         return new RcmGoogleAnalyticsJsHelper($config['Reliv\RcmGoogleAnalytics'], $service);
     }
