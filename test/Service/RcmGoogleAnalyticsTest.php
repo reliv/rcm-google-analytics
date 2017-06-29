@@ -71,7 +71,7 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
      */
     public function getMockSite($data)
     {
-        $site = new Site();
+        $site = new Site('user123');
         $site->populate($data);
 
         return $site;
@@ -126,7 +126,7 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGets()
     {
-        $currentSite = new Site();
+        $currentSite = new Site('user123');
         $currentSite->setSiteId(321);
 
         $default = 'DEFAULT';

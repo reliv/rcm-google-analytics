@@ -2,8 +2,8 @@
 
 namespace Reliv\RcmGoogleAnalytics\Factory;
 
+use Interop\Container\ContainerInterface;
 use Reliv\RcmGoogleAnalytics\Model\AnalyticsAccessAny;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -21,16 +21,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class AnalyticsAccessAnyFactory implements FactoryInterface
+class AnalyticsAccessAnyFactory
 {
     /**
-     * create AnalyticsAccessAny
+     * __invoke
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param $container ContainerInterface|ServiceLocatorInterface
      *
      * @return AnalyticsAccessAny
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke($container)
     {
         return new AnalyticsAccessAny();
     }

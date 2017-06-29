@@ -44,7 +44,7 @@ class RcmGoogleAnalyticsController extends AbstractActionController
     protected function hasAccess()
     {
         $accessModel = $this->serviceLocator->get(
-            'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
+            \Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
         );
 
         return $accessModel->hasAccess();

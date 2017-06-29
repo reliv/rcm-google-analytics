@@ -43,10 +43,10 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
             'host' => 'test.example.com'
         ];
 
-        $domain = new Domain();
+        $domain = new Domain('user123');
         $domain->setDomainName('test.example.com');
 
-        $data['site'] = new Site();
+        $data['site'] = new Site('user123');
         $data['site']->setSiteId(3211);
         $data['site']->setDomain($domain);
 
@@ -64,7 +64,7 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($entity->getHost());
 
-        $siteNoDomain = new Site();
+        $siteNoDomain = new Site('user123');
         $siteNoDomain->setSiteId(3311);
         $entity->setSite($siteNoDomain);
         $this->assertNull($entity->getHost());

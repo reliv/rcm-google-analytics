@@ -1,34 +1,39 @@
 <?php
 return [
     /*
-     * Configuration
+     * asset_manager
      */
-    'Reliv\RcmGoogleAnalytics' => [
-        'use-analytics' => true,
-        'javascript-view' => 'test.js.phtml',
-        /**
-         * For use with:
-         * 'AnalyticsAccessRcmUserAcl' and/or 'RcmGoogleAnalyticsResourceProvider'
-         */
-        'acl-resource-config' => [
-            'providerId' => 'Reliv\RcmGoogleAnalytics\Acl\ResourceProvider',
-            'resourceId' => 'rcm-google-analytics',
-            'privilege' => 'admin',
-        ],
-    ],
-    /*
-     * Config for RcmUser ACL Resource Provider
-     * - ONLY used if configured for
-     * 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory'
-     * With default settings
-     */
-    'RcmUser' => [
-        'Acl\Config' => [
-            'ResourceProviders' => [
-                'RcmGoogleAnalytics' => 'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider',
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
+                'modules/rcm-google-analytics/' => __DIR__ . '/../public/',
+            ],
+            'collections' => [
+                'modules/rcm/modules.js' => [
+                    'modules/rcm-google-analytics/js/rcm-google-analytics.js',
+                ],
+                'modules/rcm/modules.css' => [
+                    'modules/rcm-google-analytics/css/loading.css',
+                    'modules/rcm-google-analytics/css/admin-analytics.css'
+                ],
             ],
         ],
     ],
+
+    /*
+     * Controllers
+     */
+    'controllers' => [
+        'invokables' => [
+            \Reliv\RcmGoogleAnalytics\Controller\VerificationController::class =>
+                \Reliv\RcmGoogleAnalytics\Controller\VerificationController::class,
+            \Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController::class =>
+                \Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController::class,
+            \Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController::class =>
+                \Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController::class
+        ],
+    ],
+
     /*
      * Doctrine config
      */
@@ -55,61 +60,7 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            /*
-             * Service
-             */
-            'Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics'
-                => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory',
-            /*
-             * RcmUser Resource Provider
-             */
-            'Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider'
-                => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory',
-            /*
-             * Set access based on RcmUser Acl Resources
-             * Configured by acl-resource-config config settings
-             * By default will use 'RcmGoogleAnalyticsResourceProvider'
-             */
-            'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
-                => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory',
 
-            /*
-             * Set NO access controls NOT RECOMMENDED
-             */
-            //'Reliv\RcmGoogleAnalytics\AnalyticsAccess'
-            //  => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessAnyFactory',
-
-        ],
-    ],
-    /*
-     * Controllers
-     */
-    'controllers' => [
-        'invokables' => [
-            'Reliv\RcmGoogleAnalytics\Controller\VerificationController' =>
-                'Reliv\RcmGoogleAnalytics\Controller\VerificationController',
-            'Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController' =>
-                'Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController',
-            'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController' =>
-                'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController'
-        ],
-    ],
-    /*
-     * Views
-     */
-    'view_manager' => [
-        'template_path_stack' => [
-            __DIR__ . '/../view',
-        ],
-    ],
-    'view_helpers' => [
-        'factories' => [
-            'rcmGoogleAnalytics'
-            => 'Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsViewHelperFactory',
-        ],
-    ],
     /**
      * Set for rcm-admin module
      */
@@ -127,6 +78,38 @@ return [
             ],
         ],
     ],
+
+    /*
+     * Config for RcmUser ACL Resource Provider
+     * - ONLY used if configured for
+     * 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory'
+     * With default settings
+     */
+    'RcmUser' => [
+        'Acl\Config' => [
+            'ResourceProviders' => [
+                'RcmGoogleAnalytics' => \Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider::class,
+            ],
+        ],
+    ],
+
+    /*
+     * Configuration
+     */
+    'Reliv\RcmGoogleAnalytics' => [
+        'use-analytics' => true,
+        'javascript-view' => 'test.js.phtml',
+        /**
+         * For use with:
+         * 'AnalyticsAccessRcmUserAcl' and/or 'RcmGoogleAnalyticsResourceProvider'
+         */
+        'acl-resource-config' => [
+            'providerId' => 'Reliv\RcmGoogleAnalytics\Acl\ResourceProvider',
+            'resourceId' => 'rcm-google-analytics',
+            'privilege' => 'admin',
+        ],
+    ],
+
     /*
      * Routes
      */
@@ -137,7 +120,7 @@ return [
                 'options' => [
                     'route' => '/google[:verificationCode].html',
                     'defaults' => [
-                        'controller' => 'Reliv\RcmGoogleAnalytics\Controller\VerificationController',
+                        'controller' => \Reliv\RcmGoogleAnalytics\Controller\VerificationController::class,
                         'action' => 'index',
                     ],
                 ],
@@ -147,7 +130,7 @@ return [
                 'options' => [
                     'route' => '/rcm-google-analytics',
                     'defaults' => [
-                        'controller' => 'Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController',
+                        'controller' => \Reliv\RcmGoogleAnalytics\Controller\RcmGoogleAnalyticsController::class,
                         'action' => 'index',
                     ],
                 ],
@@ -157,26 +140,61 @@ return [
                 'options' => [
                     'route' => '/api/rcm-google-analytics[/:id]',
                     'defaults' => [
-                        'controller' => 'Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController',
+                        'controller' => \Reliv\RcmGoogleAnalytics\Controller\ApiRcmGoogleAnalyticsController::class,
                     ],
                 ],
             ],
         ],
     ],
-    'asset_manager' => [
-        'resolver_configs' => [
-            'aliases' => [
-                'modules/rcm-google-analytics/' => __DIR__ . '/../public/',
-            ],
-            'collections' => [
-                'modules/rcm/modules.js' => [
-                    'modules/rcm-google-analytics/js/rcm-google-analytics.js',
-                ],
-                'modules/rcm/modules.css' => [
-                    'modules/rcm-google-analytics/css/loading.css',
-                    'modules/rcm-google-analytics/css/admin-analytics.css'
-                ],
-            ],
+
+    /*
+     * service_manager
+     */
+    'service_manager' => [
+        'factories' => [
+            /*
+             * Service
+             */
+            \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class
+                => \Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory::class,
+            /*
+             * RcmUser Resource Provider
+             */
+            \Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider::class
+                => \Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory::class,
+            /*
+             * Set access based on RcmUser Acl Resources
+             * Configured by acl-resource-config config settings
+             * By default will use 'RcmGoogleAnalyticsResourceProvider'
+             */
+            \Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
+                => \Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory::class,
+
+            /*
+             * Set NO access controls NOT RECOMMENDED
+             */
+            //\Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
+            //  => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessAnyFactory',
+
+        ],
+    ],
+
+    /*
+     * Views
+     */
+    'view_manager' => [
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+    ],
+
+    /*
+     * View Helpers
+     */
+    'view_helpers' => [
+        'factories' => [
+            'rcmGoogleAnalytics'
+            => \Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsViewHelperFactory::class,
         ],
     ],
 ];

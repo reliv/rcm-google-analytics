@@ -3,7 +3,7 @@
 namespace Reliv\RcmGoogleAnalytics\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rcm\Entity\ApiBase;
+use Rcm\Entity\AbstractApiModel;
 use Rcm\Entity\Site;
 
 /**
@@ -24,7 +24,7 @@ use Rcm\Entity\Site;
  * @ORM\Entity
  * @ORM\Table(name="rcm_google_analytics")
  */
-class RcmGoogleAnalytics extends ApiBase
+class RcmGoogleAnalytics extends AbstractApiModel
 {
     /**
      * @var int
@@ -157,7 +157,7 @@ class RcmGoogleAnalytics extends ApiBase
     /**
      * get Site Id
      *
-     * @return \Rcm\Entity\Site
+     * @return int
      */
     public function getSiteId()
     {
@@ -199,7 +199,8 @@ class RcmGoogleAnalytics extends ApiBase
         }
 
         $domain = $this->site->getDomain();
-        if (empty($domain->getDomainName())) {
+
+        if (empty($domain) || empty($domain->getDomainName())) {
             return null;
         }
 
@@ -207,11 +208,11 @@ class RcmGoogleAnalytics extends ApiBase
     }
 
     /**
-     * Return this as array format
+     * @param array $ignore
      *
      * @return array
      */
-    public function toArray()
+    public function toArray($ignore = [])
     {
         $array = parent::toArray();
 
