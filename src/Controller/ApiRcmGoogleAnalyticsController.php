@@ -3,9 +3,12 @@
 namespace Reliv\RcmGoogleAnalytics\Controller;
 
 use Rcm\View\Model\ApiJsonModel;
+use RcmUser\Service\RcmUserService;
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Stdlib\ResponseInterface;
 
 /**
  * Class ApiRcmGoogleAnalyticsController
@@ -30,7 +33,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     /**
      * get EntityManager
      *
-     * @return \Doctrine\ORM\EntityManagerInterface
+     * @return \Doctrine\ORM\EntityManager
      */
     protected function getEntityManager()
     {
@@ -74,16 +77,6 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
     }
 
     /**
-     * get CurrentUser from service
-     *
-     * @return \RcmUser\User\Entity\User
-     */
-    protected function getCurrentUser()
-    {
-        return $this->rcmUserGetCurrentUser();
-    }
-
-    /**
      * hasAccess - Use Analytics Access to check access
      *
      * @return mixed
@@ -102,7 +95,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      *
      * @param  mixed $data
      *
-     * @return mixed
+     * @return ResponseInterface|Response|ApiJsonModel
      */
     public function create($data)
     {
@@ -119,7 +112,10 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         if (!empty($entity)) {
             $this->response->setStatusCode(400);
 
-            return new ApiJsonModel($entity, 400, $this->translate('Analytics already exist for this site'));
+            return new ApiJsonModel(
+                $entity->toArray(), 400,
+                $this->translate('Analytics already exist for this site')
+            );
         }
 
         // INPUT VALIDATE
@@ -153,13 +149,13 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity,
+                $entity->toArray(),
                 400,
                 $this->translate('Analytics failed to save') . ': ' . $exception->getMessage()
             );
         }
 
-        return new ApiJsonModel($entity);
+        return new ApiJsonModel($entity->toArray());
     }
 
     /**
@@ -167,7 +163,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      *
      * @param  mixed $id
      *
-     * @return mixed
+     * @return ResponseInterface|Response|ApiJsonModel
      */
     public function delete($id)
     {
@@ -191,7 +187,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         if (empty($entity)) {
             $this->response->setStatusCode(400);
 
-            return new ApiJsonModel($entity, 400, $this->translate('Analytics do not exist for this site'));
+            return new ApiJsonModel(null, 400, $this->translate('Analytics do not exist for this site'));
         }
 
         $entityManager = $this->getEntityManager();
@@ -203,7 +199,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity,
+                $entity->toArray(),
                 400,
                 $this->translate('Analytics failed to delete') . ': ' . $exception->getMessage()
             );
@@ -217,7 +213,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      *
      * @param  mixed $id
      *
-     * @return mixed
+     * @return ResponseInterface|Response|ApiJsonModel
      */
     public function get($id)
     {
@@ -240,10 +236,10 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         if (empty($entity)) {
             $this->response->setStatusCode(404);
 
-            return new ApiJsonModel($entity, 404, $this->translate('Analytics do not exist for this site'));
+            return new ApiJsonModel(null, 404, $this->translate('Analytics do not exist for this site'));
         }
 
-        return new ApiJsonModel($entity);
+        return new ApiJsonModel($entity->toArray());
     }
 
     /**
@@ -252,7 +248,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      * @param  $id
      * @param  $data
      *
-     * @return array
+     * @return ResponseInterface|Response|ApiJsonModel
      */
     public function patch($id, $data)
     {
@@ -276,7 +272,7 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         if (empty($entity)) {
             $this->response->setStatusCode(400);
 
-            return new ApiJsonModel($entity, 400, $this->translate('Analytics do not exist for this site'));
+            return new ApiJsonModel(null, 400, $this->translate('Analytics do not exist for this site'));
         }
 
         // INPUT VALIDATE
@@ -306,12 +302,12 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity,
+                $entity->toArray(),
                 400,
                 $this->translate('Analytics failed to update') . ': ' . $exception->getMessage()
             );
         }
 
-        return new ApiJsonModel($entity);
+        return new ApiJsonModel($entity->toArray());
     }
 }
