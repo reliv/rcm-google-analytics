@@ -3,7 +3,6 @@
 namespace Reliv\RcmGoogleAnalytics\Controller;
 
 use Rcm\View\Model\ApiJsonModel;
-use RcmUser\Service\RcmUserService;
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
 use Zend\Http\Response;
@@ -113,7 +112,8 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity->toArray(), 400,
+                $entity->toArray(),
+                400,
                 $this->translate('Analytics already exist for this site')
             );
         }
