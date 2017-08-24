@@ -53,7 +53,7 @@ class RcmGoogleAnalytics
     protected function getRepository()
     {
         return $this->entityManager->getRepository(
-            '\Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics'
+            \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics::class
         );
     }
 
