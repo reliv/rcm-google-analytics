@@ -105,8 +105,8 @@ return [
          */
         'acl-resource-config' => [
             'providerId' => 'Reliv\RcmGoogleAnalytics\Acl\ResourceProvider',
-            'resourceId' => 'rcm-google-analytics',
-            'privilege' => 'admin',
+            'resourceId' => \Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider::RESOURCE_ID,
+            'privilege' => \Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider::PRIVILEGE_ADMIN,
         ],
     ],
 
@@ -156,25 +156,25 @@ return [
              * Service
              */
             \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class
-                => \Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsServiceFactory::class,
+            => \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalyticsServiceFactory::class,
             /*
              * RcmUser Resource Provider
              */
             \Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProvider::class
-                => \Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsResourceProviderFactory::class,
+            => \Reliv\RcmGoogleAnalytics\Acl\RcmGoogleAnalyticsResourceProviderFactory::class,
             /*
              * Set access based on RcmUser Acl Resources
              * Configured by acl-resource-config config settings
              * By default will use 'RcmGoogleAnalyticsResourceProvider'
              */
             \Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
-                => \Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessRcmUserAclFactory::class,
+            => \Reliv\RcmGoogleAnalytics\Model\AnalyticsAccessRcmUserAclFactory::class,
 
             /*
              * Set NO access controls NOT RECOMMENDED
              */
             //\Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
-            //  => 'Reliv\RcmGoogleAnalytics\Factory\AnalyticsAccessAnyFactory',
+            //  => 'Reliv\RcmGoogleAnalytics\Model\AnalyticsAccessAnyFactory',
 
         ],
     ],
@@ -194,7 +194,7 @@ return [
     'view_helpers' => [
         'factories' => [
             'rcmGoogleAnalytics'
-            => \Reliv\RcmGoogleAnalytics\Factory\RcmGoogleAnalyticsViewHelperFactory::class,
+            => \Reliv\RcmGoogleAnalytics\View\Helper\RcmGoogleAnalyticsViewHelperFactory::class,
         ],
     ],
 ];

@@ -57,18 +57,6 @@ class RcmGoogleAnalytics extends AbstractApiModel
     protected $siteId;
 
     /**
-     * @var \Rcm\Entity\Site
-     *
-     * @ORM\OneToOne(targetEntity="\Rcm\Entity\Site")
-     * @ORM\JoinColumn(
-     *     name="siteId",
-     *     referencedColumnName="siteId",
-     *     onDelete="CASCADE"
-     * )
-     */
-    protected $site;
-
-    /**
      * get Id
      *
      * @return int
@@ -155,9 +143,17 @@ class RcmGoogleAnalytics extends AbstractApiModel
     }
 
     /**
-     * get Site Id
+     * @param $siteId
      *
-     * @return int
+     * @return void
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+    }
+
+    /**
+     * @return int|string
      */
     public function getSiteId()
     {
@@ -165,7 +161,7 @@ class RcmGoogleAnalytics extends AbstractApiModel
     }
 
     /**
-     * get Site
+     * @deprecated
      *
      * @return \Rcm\Entity\Site
      */
@@ -175,7 +171,7 @@ class RcmGoogleAnalytics extends AbstractApiModel
     }
 
     /**
-     * set Site
+     * @deprecated
      *
      * @param \Rcm\Entity\Site $site
      *
@@ -188,7 +184,7 @@ class RcmGoogleAnalytics extends AbstractApiModel
     }
 
     /**
-     * get Host
+     * @deprecated
      *
      * @return null|string
      */
@@ -216,7 +212,7 @@ class RcmGoogleAnalytics extends AbstractApiModel
     {
         $array = parent::toArray();
 
-        $array['host'] = $this->getHost();
+        //$array['host'] = $this->getHost();
 
         unset($array['site']);
 

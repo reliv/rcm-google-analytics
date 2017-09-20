@@ -1,15 +1,14 @@
 <?php
 
-namespace Reliv\RcmGoogleAnalytics\Factory;
+namespace Reliv\RcmGoogleAnalytics\Acl;
 
 use Interop\Container\ContainerInterface;
-use Reliv\RcmGoogleAnalytics\Model\AnalyticsAccessAny;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class AnalyticAccessAnyFactory
+ * Class RcmGoogleAnalyticsResourceProviderFactory
  *
- * AnalyticAccessAnyFactory
+ * RcmGoogleAnalyticsResourceProviderFactory
  *
  * PHP version 5
  *
@@ -21,17 +20,17 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @version   Release: <package_version>
  * @link      https://github.com/reliv
  */
-class AnalyticsAccessAnyFactory
+class RcmGoogleAnalyticsResourceProviderFactory
 {
     /**
      * __invoke
      *
      * @param $container ContainerInterface|ServiceLocatorInterface
      *
-     * @return AnalyticsAccessAny
+     * @return RcmGoogleAnalyticsResourceProvider
      */
     public function __invoke($container)
     {
-        return new AnalyticsAccessAny();
+        return new RcmGoogleAnalyticsResourceProvider(null);
     }
 }

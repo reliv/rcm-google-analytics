@@ -7,6 +7,7 @@ use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\Mvc\I18n\Translator;
 use Zend\Stdlib\ResponseInterface;
 
 /**

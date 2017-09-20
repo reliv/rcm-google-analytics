@@ -1,26 +1,13 @@
 <?php
 
-namespace Reliv\RcmGoogleAnalytics\Factory;
+namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
 use Interop\Container\ContainerInterface;
-use Reliv\RcmGoogleAnalytics\View\Helper\RcmGoogleAnalyticsJsHelper;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\HelperPluginManager;
 
 /**
- * Class RcmGoogleAnalyticsViewHelperFactory
- *
- * RcmGoogleAnalyticsViewHelperFactory
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   moduleNameHere
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsViewHelperFactory
 {
