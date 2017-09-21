@@ -2,91 +2,62 @@
 
 namespace Reliv\RcmGoogleAnalytics\Controller;
 
-use Rcm\View\Model\ApiJsonModel;
+use Doctrine\ORM\EntityManager;
+use Reliv\RcmGoogleAnalytics\Api\Acl\IsAllowed;
+use Reliv\RcmGoogleAnalytics\Api\RcmGoogleAnalyticsHydrate;
+use Reliv\RcmGoogleAnalytics\Api\RcmGoogleAnalyticsToArray;
+use Reliv\RcmGoogleAnalytics\Api\Site\GetCurrentSiteId;
+use Reliv\RcmGoogleAnalytics\Api\Translate;
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
+use Reliv\RcmGoogleAnalytics\PsrServerRequest;
+use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics as RcmGoogleAnalyticsService;
+use Reliv\RcmGoogleAnalytics\View\Model\ApiJsonModel;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Stdlib\ResponseInterface;
 
 /**
- * Class ApiRcmGoogleAnalyticsController
- *
- * ApiRcmGoogleAnalyticsController
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   Reliv\RcmGoogleAnalytics\Controller
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @deprecated ZF2 version
+ * @author James Jervis - https://github.com/jerv13
  */
 class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 {
-
     const CURRENT_ID = 'current';
 
-    /**
-     * get EntityManager
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    }
+    protected $entityManager;
+    protected $getCurrentSiteId;
+    protected $translate;
+    protected $rcmGoogleAnalyticsService;
+    protected $isAllowed;
+    protected $rcmGoogleAnalyticsHydrate;
+    protected $rcmGoogleAnalyticsToArray;
 
     /**
-     * get CurrentSite
-     *
-     * @return \Rcm\Entity\Site
+     * @param EntityManager             $entityManager
+     * @param GetCurrentSiteId          $getCurrentSiteId
+     * @param Translate                 $translate
+     * @param RcmGoogleAnalyticsService $rcmGoogleAnalyticsService
+     * @param IsAllowed                 $isAllowed
+     * @param RcmGoogleAnalyticsHydrate $rcmGoogleAnalyticsHydrate
+     * @param RcmGoogleAnalyticsToArray $rcmGoogleAnalyticsToArray
      */
-    protected function getCurrentSite()
-    {
-        return $this->serviceLocator->get(\Rcm\Service\CurrentSite::class);
-    }
-
-    /**
-     * translate using MVC translator
-     *
-     * @param string $string
-     *
-     * @return mixed
-     */
-    protected function translate($string)
-    {
-        $translator = $this->serviceLocator->get('MvcTranslator');
-
-        return $translator->translate($string);
-    }
-
-    /**
-     * get RcmGoogleAnalyticsService
-     *
-     * @return \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics
-     */
-    protected function getRcmGoogleAnalyticsService()
-    {
-        return $this->getServiceLocator()->get(
-            \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class
-        );
-    }
-
-    /**
-     * hasAccess - Use Analytics Access to check access
-     *
-     * @return mixed
-     */
-    protected function hasAccess()
-    {
-        $accessModel = $this->serviceLocator->get(
-            \Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
-        );
-
-        return $accessModel->hasAccess();
+    public function __construct(
+        EntityManager $entityManager,
+        GetCurrentSiteId $getCurrentSiteId,
+        Translate $translate,
+        RcmGoogleAnalyticsService $rcmGoogleAnalyticsService,
+        IsAllowed $isAllowed,
+        RcmGoogleAnalyticsHydrate $rcmGoogleAnalyticsHydrate,
+        RcmGoogleAnalyticsToArray $rcmGoogleAnalyticsToArray
+    ) {
+        $this->entityManager = $entityManager;
+        $this->getCurrentSiteId = $getCurrentSiteId;
+        $this->translate = $translate;
+        $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->isAllowed = $isAllowed;
+        $this->rcmGoogleAnalyticsHydrate = $rcmGoogleAnalyticsHydrate;
+        $this->rcmGoogleAnalyticsToArray = $rcmGoogleAnalyticsToArray;
     }
 
     /**
@@ -98,23 +69,29 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      */
     public function create($data)
     {
-        if (!$this->hasAccess()) {
+        $request = PsrServerRequest::get();
+
+        if (!$this->isAllowed->__invoke($request)) {
             $this->response->setStatusCode(401);
 
-            return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
+            return new ApiJsonModel(
+                null,
+                401,
+                $this->translate->__invoke('Access Denied')
+            );
         }
 
-        $service = $this->getRcmGoogleAnalyticsService();
-        $currentSite = $this->getCurrentSite();
-        $entity = $service->getSiteAnalyticEntity($currentSite);
+        $service = $this->rcmGoogleAnalyticsService;
+        $currentSiteId = $this->getCurrentSiteId->__invoke($request);
+        $entity = $service->getAnalyticEntityForSite($currentSiteId);
 
         if (!empty($entity)) {
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity->toArray(),
+                $this->rcmGoogleAnalyticsToArray->__invoke($entity),
                 400,
-                $this->translate('Analytics already exist for this site')
+                $this->translate->__invoke('Analytics already exist for this site')
             );
         }
 
@@ -129,18 +106,21 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             return new ApiJsonModel(
                 $data,
                 400,
-                $this->translate('Analytics data is not valid'),
+                $this->translate->__invoke('Analytics data is not valid'),
                 $inputFilter->getMessages()
             );
         }
 
         $entity = new RcmGoogleAnalytics();
 
-        $entity->populate($inputFilter->getValues(), ['id', 'site']);
+        $entity = $this->rcmGoogleAnalyticsHydrate->__invoke(
+            $entity,
+            $inputFilter->getValues()
+        );
 
-        $entity->setSite($this->getCurrentSite());
+        $entity->setSiteId($currentSiteId);
 
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
 
         try {
             $entityManager->persist($entity);
@@ -149,13 +129,15 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity->toArray(),
+                $this->rcmGoogleAnalyticsToArray->__invoke($entity),
                 400,
-                $this->translate('Analytics failed to save') . ': ' . $exception->getMessage()
+                $this->translate->__invoke('Analytics failed to save') . ': ' . $exception->getMessage()
             );
         }
 
-        return new ApiJsonModel($entity->toArray());
+        return new ApiJsonModel(
+            $this->rcmGoogleAnalyticsToArray->__invoke($entity)
+        );
     }
 
     /**
@@ -167,30 +149,40 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      */
     public function delete($id)
     {
+        $request = PsrServerRequest::get();
+
         if ($id !== self::CURRENT_ID) {
             $this->response->setStatusCode(404);
 
             return $this->response;
         }
 
-        if (!$this->hasAccess()) {
+        if (!$this->isAllowed->__invoke($request)) {
             $this->response->setStatusCode(401);
 
-            return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
+            return new ApiJsonModel(
+                null,
+                401,
+                $this->translate->__invoke('Access Denied')
+            );
         }
 
-        $service = $this->getRcmGoogleAnalyticsService();
-        $currentSite = $this->getCurrentSite();
+        $service = $this->rcmGoogleAnalyticsService;
+        $currentSiteId = $this->getCurrentSiteId->__invoke($request);
 
-        $entity = $service->getSiteAnalyticEntity($currentSite);
+        $entity = $service->getAnalyticEntityForSite($currentSiteId);
 
         if (empty($entity)) {
             $this->response->setStatusCode(400);
 
-            return new ApiJsonModel(null, 400, $this->translate('Analytics do not exist for this site'));
+            return new ApiJsonModel(
+                null,
+                400,
+                $this->translate->__invoke('Analytics do not exist for this site')
+            );
         }
 
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
 
         try {
             $entityManager->remove($entity);
@@ -199,9 +191,9 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity->toArray(),
+                $this->rcmGoogleAnalyticsToArray->__invoke($entity),
                 400,
-                $this->translate('Analytics failed to delete') . ': ' . $exception->getMessage()
+                $this->translate->__invoke('Analytics failed to delete') . ': ' . $exception->getMessage()
             );
         }
 
@@ -217,29 +209,41 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      */
     public function get($id)
     {
+        $request = PsrServerRequest::get();
+
         if ($id !== self::CURRENT_ID) {
             $this->response->setStatusCode(404);
 
             return $this->response;
         }
 
-        if (!$this->hasAccess()) {
+        if (!$this->isAllowed->__invoke($request)) {
             $this->response->setStatusCode(401);
 
-            return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
+            return new ApiJsonModel(
+                null,
+                401,
+                $this->translate->__invoke('Access Denied')
+            );
         }
 
-        $service = $this->getRcmGoogleAnalyticsService();
-        $currentSite = $this->getCurrentSite();
-        $entity = $service->getSiteAnalyticEntity($currentSite);
+        $service = $this->rcmGoogleAnalyticsService;
+        $currentSiteId = $this->getCurrentSiteId->__invoke($request);
+        $entity = $service->getAnalyticEntityForSite($currentSiteId);
 
         if (empty($entity)) {
             $this->response->setStatusCode(404);
 
-            return new ApiJsonModel(null, 404, $this->translate('Analytics do not exist for this site'));
+            return new ApiJsonModel(
+                null,
+                404,
+                $this->translate->__invoke('Analytics do not exist for this site')
+            );
         }
 
-        return new ApiJsonModel($entity->toArray());
+        return new ApiJsonModel(
+            $this->rcmGoogleAnalyticsToArray->__invoke($entity)
+        );
     }
 
     /**
@@ -252,27 +256,37 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
      */
     public function patch($id, $data)
     {
+        $request = PsrServerRequest::get();
+
         if ($id !== self::CURRENT_ID) {
             $this->response->setStatusCode(404);
 
             return $this->response;
         }
 
-        if (!$this->hasAccess()) {
+        if (!$this->isAllowed->__invoke($request)) {
             $this->response->setStatusCode(401);
 
-            return new ApiJsonModel(null, 401, $this->translate('Access Denied'));
+            return new ApiJsonModel(
+                null,
+                401,
+                $this->translate->__invoke('Access Denied')
+            );
         }
 
-        $service = $this->getRcmGoogleAnalyticsService();
-        $currentSite = $this->getCurrentSite();
+        $service = $this->rcmGoogleAnalyticsService;
+        $currentSiteId = $this->getCurrentSiteId->__invoke($request);
 
-        $entity = $service->getSiteAnalyticEntity($currentSite);
+        $entity = $service->getAnalyticEntityForSite($currentSiteId);
 
         if (empty($entity)) {
             $this->response->setStatusCode(400);
 
-            return new ApiJsonModel(null, 400, $this->translate('Analytics do not exist for this site'));
+            return new ApiJsonModel(
+                null,
+                400,
+                $this->translate->__invoke('Analytics do not exist for this site')
+            );
         }
 
         // INPUT VALIDATE
@@ -286,14 +300,17 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             return new ApiJsonModel(
                 $data,
                 400,
-                $this->translate('Analytics data is not valid'),
+                $this->translate->__invoke('Analytics data is not valid'),
                 $inputFilter->getMessages()
             );
         }
 
-        $entity->populate($inputFilter->getValues(), ['id', 'site']);
+        $entity = $this->rcmGoogleAnalyticsHydrate->__invoke(
+            $entity,
+            $inputFilter->getValues()
+        );
 
-        $entityManager = $this->getEntityManager();
+        $entityManager = $this->entityManager;
 
         try {
             $entityManager->persist($entity);
@@ -302,12 +319,14 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             $this->response->setStatusCode(400);
 
             return new ApiJsonModel(
-                $entity->toArray(),
+                $this->rcmGoogleAnalyticsToArray->__invoke($entity),
                 400,
-                $this->translate('Analytics failed to update') . ': ' . $exception->getMessage()
+                $this->translate->__invoke('Analytics failed to update') . ': ' . $exception->getMessage()
             );
         }
 
-        return new ApiJsonModel($entity->toArray());
+        return new ApiJsonModel(
+            $this->rcmGoogleAnalyticsToArray->__invoke($entity)
+        );
     }
 }

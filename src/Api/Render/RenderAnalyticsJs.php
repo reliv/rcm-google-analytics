@@ -1,18 +1,16 @@
 <?php
 
-namespace Reliv\RcmGoogleAnalytics\View\Helper;
+namespace Reliv\RcmGoogleAnalytics\Api\Render;
 
-use Reliv\RcmGoogleAnalytics\PsrServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
-use Zend\View\Helper\AbstractHelper;
 
 /**
- * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
-class RcmGoogleAnalyticsJsHelper extends AbstractHelper
+class RenderAnalyticsJs implements Render
 {
-    protected $templatePath = '/../../../view/';
+    protected $templatePath;
     /**
      * @var array
      */
@@ -29,40 +27,47 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
     protected $model;
 
     /**
-     * __construct
-     *
      * @param array              $config
      * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
+     * @param string             $templatePath
      */
     public function __construct(
-        $config,
-        RcmGoogleAnalytics $rcmGoogleAnalyticsService
+        array $config,
+        RcmGoogleAnalytics $rcmGoogleAnalyticsService,
+        string $templatePath = __DIR__ . '/../../../view/'
     ) {
         $this->config = $config;
         $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->templatePath = $templatePath;
     }
 
     /**
-     * __invoke
+     * @param ServerRequestInterface $request
+     * @param array|mixed            $data
+     * @param array                  $options
      *
      * @return string
      */
-    public function __invoke()
-    {
+    public function __invoke(
+        ServerRequestInterface $request,
+        $data,
+        array $options = []
+    ): string {
         if (!$this->config['use-analytics']) {
             return "";
         };
 
-        $psrRequest = PsrServerRequest::get();
-
         $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
-            $psrRequest,
+            $request,
             new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
         );
 
-        return $this->getView()->partial(
-            $this->config['javascript-view'],
-            array('model' => $this->model)
-        );
+        $template = $this->templatePath . $this->config['javascript-view'];
+
+        ob_start();
+
+        include($template);
+
+        return ob_get_clean();
     }
 }

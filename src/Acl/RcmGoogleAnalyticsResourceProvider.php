@@ -6,19 +6,7 @@ use RcmUser\Acl\Entity\AclResource;
 use RcmUser\Acl\Provider\ResourceProvider;
 
 /**
- * Class RcmGoogleAnalyticsResourceProvider
- *
- * Resource provider for RcmUser
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   Reliv\RcmGoogleAnalytics\Acl
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsResourceProvider extends ResourceProvider
 {
@@ -31,6 +19,8 @@ class RcmGoogleAnalyticsResourceProvider extends ResourceProvider
      * @var string RESOURCE_ID_ROOT
      */
     const RESOURCE_ID = 'rcm-google-analytics';
+
+    const PRIVILEGE_ADMIN = 'admin';
 
     /**
      * default resources  - rcm user needs these,
@@ -84,7 +74,7 @@ class RcmGoogleAnalyticsResourceProvider extends ResourceProvider
     protected function buildResources()
     {
         $privileges = [
-            'admin'
+            self::PRIVILEGE_ADMIN
         ];
 
         /* root resource */
