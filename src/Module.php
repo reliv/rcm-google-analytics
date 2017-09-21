@@ -33,31 +33,26 @@ class Module implements AutoloaderProviderInterface
      */
     public function getConfig()
     {
-        $assetManager = include __DIR__ . '/../config/asset_manager.php';
-        $navigation = include __DIR__ . '/../config/navigation.php';
-        $rcmUser = include __DIR__ . '/../config/rcm-user.php';
-        $config = include __DIR__ . '/../config/rcm-google-analytics.php';
-        $zf2Config = include __DIR__ . '/../config/zf2-config.php';
-
-        $configManager = new ConfigAggregator(
-            [
-                $config['dependencies'],
-                $zf2Config['service_manager']
-            ]
-        );
-
-        $zf2Config['service_manager'] = $configManager->getMergedConfig();
+        $assetManager = new AssetManagerConfig();
+        $rcmAdmin = new RcmAdminConfig();
+        $rcmUser = new RcmUserConfig();
+        $config = new RcmGoogleAnalyticsConfig();
+        $zf2Config = new Zf2Config();
 
         $configManager = new ConfigAggregator(
             [
                 $assetManager,
-                $navigation,
+                $rcmAdmin,
                 $rcmUser,
                 $config,
                 $zf2Config
             ]
         );
 
-        return $configManager->getMergedConfig();
+        $config = $configManager->getMergedConfig();
+
+        $config['service_manager'] = array_merge($config['service_manager'], $config['dependencies']);
+
+        return $config;
     }
 }

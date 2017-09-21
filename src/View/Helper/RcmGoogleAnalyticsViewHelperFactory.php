@@ -7,6 +7,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\HelperPluginManager;
 
 /**
+ * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsViewHelperFactory

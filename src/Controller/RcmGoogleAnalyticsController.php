@@ -9,6 +9,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 /**
+ * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsController extends AbstractActionController
@@ -44,15 +45,6 @@ class RcmGoogleAnalyticsController extends AbstractActionController
             //return $this->response;
         }
 
-        $translations = [
-            "Loading.." => $this->translate->__invoke("Loading.."),
-            "Google Analytics Tracking Id" => $this->translate->__invoke(
-                "Google Analytics Tracking Id"
-            ),
-            "Submit" => $this->translate->__invoke("Submit"),
-            "Remove" => $this->translate->__invoke("Remove")
-        ];
-
-        return new ViewModel($translations);
+        return new ViewModel(['title' => $this->translate->__invoke("Google Analytics Settings")]);
     }
 }

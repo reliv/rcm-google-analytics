@@ -16,11 +16,11 @@ class GetHostRcmFactory
      *
      * @param $container ContainerInterface|ServiceLocatorInterface
      *
-     * @return GetCurrentSiteIdRcm
+     * @return GetHostRcm
      */
     public function __invoke($container)
     {
-        return new GetCurrentSiteIdRcm(
+        return new GetHostRcm(
             $container->get(FindSite::class)
         );
     }

@@ -10,9 +10,11 @@ use Reliv\RcmGoogleAnalytics\Api\RcmGoogleAnalyticsToArray;
 use Reliv\RcmGoogleAnalytics\Api\Site\GetCurrentSiteId;
 use Reliv\RcmGoogleAnalytics\Api\Translate;
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
+use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
+ * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
 class ApiRcmGoogleAnalyticsControllerFactory
@@ -26,6 +28,11 @@ class ApiRcmGoogleAnalyticsControllerFactory
      */
     public function __invoke($container)
     {
+        // @BC for ZendFramework
+        if ($container instanceof ControllerManager) {
+            $container = $container->getServiceLocator();
+        }
+
         return new ApiRcmGoogleAnalyticsController(
             $container->get(EntityManager::class),
             $container->get(GetCurrentSiteId::class),

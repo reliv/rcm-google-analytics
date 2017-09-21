@@ -143,7 +143,7 @@ class ApiRcmGoogleAnalyticsUpdate
                 'message' => '',
                 'errors' => [],
             ],
-            400
+            200
         );
     }
 }

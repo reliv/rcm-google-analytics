@@ -38,8 +38,8 @@ class TranslateZf2 implements Translate
     {
         return $this->translator->translate(
             $message,
-            $this->getOption(self::OPTIONS_TEXT_DOMAIN, 'default'),
-            $this->getOption(self::OPTIONS_LOCALE, null)
+            $this->getOption($options, self::OPTIONS_TEXT_DOMAIN, 'default'),
+            $this->getOption($options, self::OPTIONS_LOCALE, null)
         );
     }
 

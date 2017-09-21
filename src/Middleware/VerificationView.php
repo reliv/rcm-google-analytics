@@ -47,6 +47,7 @@ class VerificationView
 
         $model = $this->rcmGoogleAnalyticsService
             ->getCurrentAnalyticEntityWithVerifyCode(
+                $request,
                 $requestVerificationCode,
                 new RcmGoogleAnalytics()
             );

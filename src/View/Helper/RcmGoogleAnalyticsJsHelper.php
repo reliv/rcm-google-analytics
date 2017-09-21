@@ -4,10 +4,10 @@ namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
 use Reliv\RcmGoogleAnalytics\PsrServerRequest;
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
-use Zend\Diactoros\ServerRequestFactory;
 use Zend\View\Helper\AbstractHelper;
 
 /**
+ * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsJsHelper extends AbstractHelper
@@ -30,6 +30,7 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 
     /**
      * __construct
+     *
      * @param array              $config
      * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
      */

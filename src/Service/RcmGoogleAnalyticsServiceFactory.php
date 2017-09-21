@@ -2,7 +2,9 @@
 
 namespace Reliv\RcmGoogleAnalytics\Service;
 
+use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
+use Reliv\RcmGoogleAnalytics\Api\Site\GetCurrentSiteId;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -19,8 +21,8 @@ class RcmGoogleAnalyticsServiceFactory
      */
     public function __invoke($container)
     {
-        $entityManager = $container->get('Doctrine\ORM\EntityManager');
-        $currentSite = $container->get(\Rcm\Service\CurrentSite::class);
+        $entityManager = $container->get(EntityManager::class);
+        $currentSite = $container->get(GetCurrentSiteId::class);
 
         return new RcmGoogleAnalytics($entityManager, $currentSite);
     }

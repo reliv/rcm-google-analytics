@@ -16,16 +16,16 @@ class ModuleConfig
      */
     public function __invoke()
     {
-        $assetManager = include __DIR__ . '/../config/asset_manager.php';
-        $navigation = include __DIR__ . '/../config/navigation.php';
-        $rcmUser = include __DIR__ . '/../config/rcm-user.php';
-        $config = include __DIR__ . '/../config/rcm-google-analytics.php';
-        $expressiveConfig = include __DIR__ . '/../config/expressive-config.php';
+        $assetManager = new AssetManagerConfig();
+        $rcmAdmin = new RcmAdminConfig();
+        $rcmUser = new RcmUserConfig();
+        $config = new RcmGoogleAnalyticsConfig();
+        $expressiveConfig = new ExpressiveConfig();
 
         $configManager = new ConfigAggregator(
             [
                 $assetManager,
-                $navigation,
+                $rcmAdmin,
                 $rcmUser,
                 $config,
                 $expressiveConfig

@@ -18,6 +18,7 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Stdlib\ResponseInterface;
 
 /**
+ * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
 class ApiRcmGoogleAnalyticsController extends AbstractRestfulController

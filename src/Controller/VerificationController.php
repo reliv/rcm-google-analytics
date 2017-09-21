@@ -3,11 +3,13 @@
 namespace Reliv\RcmGoogleAnalytics\Controller;
 
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
+use Reliv\RcmGoogleAnalytics\PsrServerRequest;
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics as RcmGoogleAnalyticsService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 /**
+ * @deprecated ZF2 version
  * @author James Jervis - https://github.com/jerv13
  */
 class VerificationController extends AbstractActionController
@@ -42,8 +44,11 @@ class VerificationController extends AbstractActionController
     {
         $requestVerificationCode = $this->getVerificationCodeFromRoute();
 
+        $request = PsrServerRequest::get();
+
         $model = $this->rcmGoogleAnalyticsService
             ->getCurrentAnalyticEntityWithVerifyCode(
+                $request,
                 $requestVerificationCode,
                 new RcmGoogleAnalytics()
             );

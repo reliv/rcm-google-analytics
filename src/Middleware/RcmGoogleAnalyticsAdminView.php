@@ -52,6 +52,7 @@ class RcmGoogleAnalyticsAdminView
         }
 
         ob_start();
+        $title = $this->translate->__invoke("Google Analytics Settings");
         include($this->templateFile);
         $content = ob_get_clean();
 

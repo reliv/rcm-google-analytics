@@ -88,7 +88,7 @@ class ApiRcmGoogleAnalyticsCreate
                 [
                     'data' => $this->rcmGoogleAnalyticsToArray->__invoke($entity),
                     'code' => 400,
-                    'message' => $this->translate->__invoke('Access Denied'),
+                    'message' => $this->translate->__invoke('Analytics already exist for this site'),
                     'errors' => [],
                 ],
                 400
