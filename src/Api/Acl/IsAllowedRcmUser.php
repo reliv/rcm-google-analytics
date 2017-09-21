@@ -39,7 +39,6 @@ class IsAllowedRcmUser implements IsAllowed
         $this->rcmUserService = $rcmUserService;
         $this->resourceId = $resourceId;
         $this->privilege = $privilege;
-
     }
 
     /**
@@ -51,8 +50,7 @@ class IsAllowedRcmUser implements IsAllowed
     public function __invoke(
         ServerRequestInterface $request,
         array $options = []
-    ): bool
-    {
+    ): bool {
         return $this->rcmUserService->isAllowed(
             $this->resourceId,
             $this->privilege

@@ -34,8 +34,7 @@ class TranslateZf2 implements Translate
     public function __invoke(
         string $message,
         array $options = []
-    ):string
-    {
+    ):string {
         return $this->translator->translate(
             $message,
             $this->getOption($options, self::OPTIONS_TEXT_DOMAIN, 'default'),

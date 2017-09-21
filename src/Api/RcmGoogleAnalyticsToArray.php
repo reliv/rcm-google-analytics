@@ -33,8 +33,7 @@ class RcmGoogleAnalyticsToArray
     public function __invoke(
         RcmGoogleAnalytics $rcmGoogleAnalytics,
         array $options = []
-    ): array
-    {
+    ): array {
         return [
             'id' => $rcmGoogleAnalytics->getId(),
             'trackingId' => $rcmGoogleAnalytics->getTrackingId(),
