@@ -20,12 +20,10 @@ class RcmGoogleAnalyticsHydrate
         RcmGoogleAnalytics $rcmGoogleAnalytics,
         array $data,
         array $options = []
-    ): RcmGoogleAnalytics
-    {
+    ): RcmGoogleAnalytics {
         $prefix = 'set';
 
         foreach ($data as $property => $value) {
-
             $method = $prefix . ucfirst($property);
 
             if (method_exists($rcmGoogleAnalytics, $method)) {
@@ -35,5 +33,4 @@ class RcmGoogleAnalyticsHydrate
 
         return $rcmGoogleAnalytics;
     }
-
 }
