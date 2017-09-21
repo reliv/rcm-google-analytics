@@ -3,6 +3,7 @@
 namespace Reliv\RcmGoogleAnalytics\Api\Acl;
 
 use Interop\Container\ContainerInterface;
+use RcmUser\Service\RcmUserService;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -19,7 +20,7 @@ class IsAllowedRcmUserFactory
      */
     public function __invoke($container)
     {
-        $rcmUserService = $container->get('RcmUser\Service\RcmUserService');
+        $rcmUserService = $container->get(RcmUserService::class);
         $config = $container->get('config');
 
         $resourceConfig = $config['Reliv\RcmGoogleAnalytics']['acl-resource-config'];

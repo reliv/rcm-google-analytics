@@ -2,52 +2,30 @@
 
 namespace Reliv\RcmGoogleAnalytics\Controller;
 
+use Reliv\RcmGoogleAnalytics\Api\Acl\IsAllowed;
+use Reliv\RcmGoogleAnalytics\Api\Translate;
+use Reliv\RcmGoogleAnalytics\PsrServerRequest;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 /**
- * Class RcmGoogleAnalyticsController
- *
- * RcmGoogleAnalyticsController
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   moduleNameHere
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsController extends AbstractActionController
 {
-    /**
-     * translate
-     *
-     * @param string $string
-     *
-     * @return mixed
-     */
-    protected function translate($string)
-    {
-        $translator = $this->serviceLocator->get('MvcTranslator');
-
-        return $translator->translate($string);
-    }
+    protected $translate;
+    protected $isAllowed;
 
     /**
-     * hasAccess - Use Analytics Access to check access
-     *
-     * @return mixed
+     * @param Translate $translate
+     * @param IsAllowed $isAllowed
      */
-    protected function hasAccess()
-    {
-        $accessModel = $this->serviceLocator->get(
-            \Reliv\RcmGoogleAnalytics\Service\AnalyticsAccess::class
-        );
-
-        return $accessModel->hasAccess();
+    public function __construct(
+        Translate $translate,
+        IsAllowed $isAllowed
+    ) {
+        $this->translate = $translate;
+        $this->isAllowed = $isAllowed;
     }
 
     /**
@@ -57,19 +35,22 @@ class RcmGoogleAnalyticsController extends AbstractActionController
      */
     public function indexAction()
     {
-        if (!$this->hasAccess()) {
+        $request = PsrServerRequest::get();
+
+        if (!$this->isAllowed->__invoke($request)) {
             $this->response->setStatusCode(401);
 
+            // @todo why not returning?
             //return $this->response;
         }
 
         $translations = [
-            "Loading.." => $this->translate("Loading.."),
-            "Google Analytics Tracking Id" => $this->translate(
+            "Loading.." => $this->translate->__invoke("Loading.."),
+            "Google Analytics Tracking Id" => $this->translate->__invoke(
                 "Google Analytics Tracking Id"
             ),
-            "Submit" => $this->translate("Submit"),
-            "Remove" => $this->translate("Remove")
+            "Submit" => $this->translate->__invoke("Submit"),
+            "Remove" => $this->translate->__invoke("Remove")
         ];
 
         return new ViewModel($translations);

@@ -2,6 +2,7 @@
 
 namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
+use Reliv\RcmGoogleAnalytics\PsrServerRequest;
 use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\View\Helper\AbstractHelper;
@@ -51,10 +52,10 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
             return "";
         };
 
-        $request = ServerRequestFactory::fromGlobals();
+        $psrRequest = PsrServerRequest::get();
 
         $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
-            $request,
+            $psrRequest,
             new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
         );
 

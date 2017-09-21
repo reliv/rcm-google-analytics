@@ -10,7 +10,7 @@ use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
  */
 class RenderAnalyticsJs implements Render
 {
-    protected $templatePath = '/../../../view/';
+    protected $templatePath;
     /**
      * @var array
      */
@@ -27,16 +27,18 @@ class RenderAnalyticsJs implements Render
     protected $model;
 
     /**
-     * __construct
      * @param array              $config
      * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
+     * @param string             $templatePath
      */
     public function __construct(
-        $config,
-        RcmGoogleAnalytics $rcmGoogleAnalyticsService
+        array $config,
+        RcmGoogleAnalytics $rcmGoogleAnalyticsService,
+        string $templatePath = __DIR__ . '/../../../view/'
     ) {
         $this->config = $config;
         $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->templatePath = $templatePath;
     }
 
     /**

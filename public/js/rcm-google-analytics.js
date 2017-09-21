@@ -36,7 +36,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
              * @param data
              */
             var onGetAnalyticSettingsSuccess = function (data) {
-
                 self.isNewAnalyticSettings = false;
                 self.hasAccess = true;
                 self.analyticSettings = data.data;
@@ -47,7 +46,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
              * @param data
              */
             var onGetAnalyticSettingsError = function (data) {
-
                 if (data.code == 404) {
                     self.isNewAnalyticSettings = true;
                 }
@@ -67,7 +65,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
              * @param data
              */
             var onSaveAnalyticSettingsSuccess = function (data) {
-
                 self.isNewAnalyticSettings = false;
                 self.analyticSettings = data.data;
             };
@@ -77,7 +74,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
              * @param data
              */
             var onSaveAnalyticSettingsError = function (data) {
-
                 self.error = data;
             };
 
@@ -86,7 +82,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
              * @param data
              */
             var onDeleteAnalyticSettingsSuccess = function (data) {
-
                 self.isNewAnalyticSettings = true;
                 self.analyticSettings = {};
             };
@@ -95,7 +90,6 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
              * getAnalyticSettings
              */
             self.getAnalyticSettings = function () {
-
                 self.error = null;
 
                 var apiParams = {
@@ -175,7 +169,3 @@ angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
         }
     ]
 );
-
-if (typeof rcm !== 'undefined') {
-    rcm.addAngularModule('rcmGoogleAnalytics');
-}

@@ -2,6 +2,8 @@
 
 namespace Reliv\RcmGoogleAnalytics;
 
+use Zend\ConfigAggregator\ConfigAggregator;
+
 /**
  * @author James Jervis - https://github.com/jerv13
  */
@@ -14,15 +16,22 @@ class ModuleConfig
      */
     public function __invoke()
     {
-        $config = include __DIR__ . '/../config/module.config.php';
+        $assetManager = include __DIR__ . '/../config/asset_manager.php';
+        $navigation = include __DIR__ . '/../config/navigation.php';
+        $rcmUser = include __DIR__ . '/../config/rcm-user.php';
+        $config = include __DIR__ . '/../config/rcm-google-analytics.php';
+        $expressiveConfig = include __DIR__ . '/../config/expressive-config.php';
 
-        return [
-            'asset_manager' => $config['asset_manager'],
-            'dependencies' => $config['service_manager'],
-            'doctrine' => $config['doctrine'],
-            'navigation' => $config['navigation'],
-            'RcmUser' => $config['RcmUser'],
-            'Reliv\RcmGoogleAnalytics' => $config['Reliv\RcmGoogleAnalytics'],
-        ];
+        $configManager = new ConfigAggregator(
+            [
+                $assetManager,
+                $navigation,
+                $rcmUser,
+                $config,
+                $expressiveConfig
+            ]
+        );
+
+        return $configManager->getMergedConfig();
     }
 }
