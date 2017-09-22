@@ -40,15 +40,7 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
             'trackingId' => 'UA00000',
             'verificationCode' => 'ggggg',
             'siteId' => 321,
-            'host' => 'test.example.com'
         ];
-
-        $domain = new Domain('user123');
-        $domain->setDomainName('test.example.com');
-
-        $data['site'] = new Site('user123');
-        $data['site']->setSiteId(3211);
-        $data['site']->setDomain($domain);
 
         $entity->setId($data['id']);
         $this->assertEquals($data['id'], $entity->getId());
@@ -62,21 +54,7 @@ class RcmGoogleAnalyticsTest extends \PHPUnit_Framework_TestCase
             $entity->getVerificationCode());
         $this->assertTrue($entity->hasVerificationCode());
 
-        $this->assertNull($entity->getHost());
-
-        $siteNoDomain = new Site('user123');
-        $siteNoDomain->setSiteId(3311);
-        $entity->setSite($siteNoDomain);
-        $this->assertNull($entity->getHost());
-
-        $entity->setSite($data['site']);
-        $this->assertEquals($data['site'], $entity->getSite());
-        $this->assertEquals($data['site']->getSiteId(), $entity->getSiteId());
-        $this->assertEquals($data['site']->getDomain()->getDomainName(),
-            $entity->getHost());
-
-        $array = $entity->toArray();
-        $this->assertTrue(is_array($array));
-        $this->assertEquals($data['host'], $array['host']);
+        $entity->setSiteId($data['siteId']);
+        $this->assertEquals($data['siteId'], $entity->getSiteId());
     }
 }

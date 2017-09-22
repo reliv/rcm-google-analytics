@@ -3,7 +3,7 @@
 namespace Reliv\RcmGoogleAnalytics\Api\Render;
 
 use Interop\Container\ContainerInterface;
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -26,7 +26,7 @@ class RenderAnalyticsJsFactory
 
         return new RenderAnalyticsJs(
             $config,
-            $container->get(RcmGoogleAnalytics::class)
+            $container->get(GetCurrentAnalyticEntity::class)
         );
     }
 }

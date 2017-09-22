@@ -4,8 +4,8 @@ namespace Reliv\RcmGoogleAnalytics\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntityWithVerifyCode;
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics as RcmGoogleAnalyticsService;
 use Zend\Diactoros\Response\HtmlResponse;
 
 /**
@@ -13,21 +13,21 @@ use Zend\Diactoros\Response\HtmlResponse;
  */
 class VerificationView
 {
-    protected $rcmGoogleAnalyticsService;
+    protected $getCurrentAnalyticEntityWithVerifyCode;
 
     protected $templateFile;
 
     protected $model;
 
     /**
-     * @param RcmGoogleAnalyticsService $rcmGoogleAnalyticsService
-     * @param string                    $templateFile
+     * @param GetCurrentAnalyticEntityWithVerifyCode $getCurrentAnalyticEntityWithVerifyCode
+     * @param string                                 $templateFile
      */
     public function __construct(
-        RcmGoogleAnalyticsService $rcmGoogleAnalyticsService,
+        GetCurrentAnalyticEntityWithVerifyCode $getCurrentAnalyticEntityWithVerifyCode,
         string $templateFile = __DIR__ . '/../../view/reliv/verification/index.phtml'
     ) {
-        $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->getCurrentAnalyticEntityWithVerifyCode = $getCurrentAnalyticEntityWithVerifyCode;
         $this->templateFile = $templateFile;
     }
 
@@ -45,12 +45,18 @@ class VerificationView
     ) {
         $requestVerificationCode = $request->getAttribute('verificationCode');
 
-        $model = $this->rcmGoogleAnalyticsService
-            ->getCurrentAnalyticEntityWithVerifyCode(
-                $request,
-                $requestVerificationCode,
-                new RcmGoogleAnalytics()
+        $model = $this->getCurrentAnalyticEntityWithVerifyCode->__invoke(
+            $request,
+            $requestVerificationCode,
+            new RcmGoogleAnalytics()
+        );
+
+        if (empty($model)) {
+            return new HtmlResponse(
+                '',
+                404
             );
+        }
 
         $verificationCode = $model->getVerificationCode();
 

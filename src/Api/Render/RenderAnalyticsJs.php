@@ -3,7 +3,8 @@
 namespace Reliv\RcmGoogleAnalytics\Api\Render;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
+use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 
 /**
  * @author James Jervis - https://github.com/jerv13
@@ -17,9 +18,9 @@ class RenderAnalyticsJs implements Render
     protected $config;
 
     /**
-     * @var RcmGoogleAnalytics
+     * @var GetCurrentAnalyticEntity
      */
-    protected $rcmGoogleAnalyticsService;
+    protected $getCurrentAnalyticEntity;
 
     /**
      * @var object
@@ -27,17 +28,17 @@ class RenderAnalyticsJs implements Render
     protected $model;
 
     /**
-     * @param array              $config
-     * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
-     * @param string             $templatePath
+     * @param array                    $config
+     * @param GetCurrentAnalyticEntity $getCurrentAnalyticEntity
+     * @param string                   $templatePath
      */
     public function __construct(
         array $config,
-        RcmGoogleAnalytics $rcmGoogleAnalyticsService,
+        GetCurrentAnalyticEntity $getCurrentAnalyticEntity,
         string $templatePath = __DIR__ . '/../../../view/'
     ) {
         $this->config = $config;
-        $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->getCurrentAnalyticEntity = $getCurrentAnalyticEntity;
         $this->templatePath = $templatePath;
     }
 
@@ -57,9 +58,9 @@ class RenderAnalyticsJs implements Render
             return "";
         };
 
-        $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
+        $this->model = $this->getCurrentAnalyticEntity->__invoke(
             $request,
-            new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
+            new RcmGoogleAnalytics()
         );
 
         $template = $this->templatePath . $this->config['javascript-view'];
