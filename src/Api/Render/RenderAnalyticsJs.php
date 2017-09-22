@@ -53,8 +53,7 @@ class RenderAnalyticsJs implements Render
         ServerRequestInterface $request,
         $data,
         array $options = []
-    ): string
-    {
+    ): string {
         if (!$this->config['use-analytics']) {
             return "";
         };

@@ -46,10 +46,10 @@ class VerificationView
         $requestVerificationCode = $request->getAttribute('verificationCode');
 
         $model = $this->getCurrentAnalyticEntityWithVerifyCode->__invoke(
-                $request,
-                $requestVerificationCode,
-                new RcmGoogleAnalytics()
-            );
+            $request,
+            $requestVerificationCode,
+            new RcmGoogleAnalytics()
+        );
 
         if (empty($model)) {
             return new HtmlResponse(
