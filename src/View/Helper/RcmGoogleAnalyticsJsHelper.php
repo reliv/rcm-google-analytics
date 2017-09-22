@@ -2,8 +2,9 @@
 
 namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
+use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
 use Reliv\RcmGoogleAnalytics\PsrServerRequest;
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -19,9 +20,9 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
     protected $config;
 
     /**
-     * @var RcmGoogleAnalytics
+     * @var GetCurrentAnalyticEntity
      */
-    protected $rcmGoogleAnalyticsService;
+    protected $getCurrentAnalyticEntity;
 
     /**
      * @var object
@@ -32,14 +33,14 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
      * __construct
      *
      * @param array              $config
-     * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
+     * @param GetCurrentAnalyticEntity $getCurrentAnalyticEntity
      */
     public function __construct(
         $config,
-        RcmGoogleAnalytics $rcmGoogleAnalyticsService
+        GetCurrentAnalyticEntity $getCurrentAnalyticEntity
     ) {
         $this->config = $config;
-        $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->getCurrentAnalyticEntity = $getCurrentAnalyticEntity;
     }
 
     /**
@@ -55,9 +56,11 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 
         $psrRequest = PsrServerRequest::get();
 
-        $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
+        $default = new RcmGoogleAnalytics();
+
+        $this->model = $this->getCurrentAnalyticEntity->__invoke(
             $psrRequest,
-            new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
+            $default
         );
 
         return $this->getView()->partial(

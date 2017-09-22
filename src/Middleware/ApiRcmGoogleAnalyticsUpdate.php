@@ -6,12 +6,12 @@ use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Reliv\RcmGoogleAnalytics\Api\Acl\IsAllowed;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetAnalyticEntityForSite;
 use Reliv\RcmGoogleAnalytics\Api\RcmGoogleAnalyticsHydrate;
 use Reliv\RcmGoogleAnalytics\Api\RcmGoogleAnalyticsToArray;
 use Reliv\RcmGoogleAnalytics\Api\Site\GetCurrentSiteId;
 use Reliv\RcmGoogleAnalytics\Api\Translate;
 use Reliv\RcmGoogleAnalytics\InputFilter\RcmGoogleAnalyticsFilter;
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics as RcmGoogleAnalyticsService;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
@@ -22,7 +22,7 @@ class ApiRcmGoogleAnalyticsUpdate
     protected $entityManager;
     protected $getCurrentSiteId;
     protected $translate;
-    protected $rcmGoogleAnalyticsService;
+    protected $getAnalyticEntityForSite;
     protected $isAllowed;
     protected $rcmGoogleAnalyticsHydrate;
     protected $rcmGoogleAnalyticsToArray;
@@ -31,7 +31,7 @@ class ApiRcmGoogleAnalyticsUpdate
      * @param EntityManager             $entityManager
      * @param GetCurrentSiteId          $getCurrentSiteId
      * @param Translate                 $translate
-     * @param RcmGoogleAnalyticsService $rcmGoogleAnalyticsService
+     * @param GetAnalyticEntityForSite $getAnalyticEntityForSite
      * @param IsAllowed                 $isAllowed
      * @param RcmGoogleAnalyticsHydrate $rcmGoogleAnalyticsHydrate
      * @param RcmGoogleAnalyticsToArray $rcmGoogleAnalyticsToArray
@@ -40,7 +40,7 @@ class ApiRcmGoogleAnalyticsUpdate
         EntityManager $entityManager,
         GetCurrentSiteId $getCurrentSiteId,
         Translate $translate,
-        RcmGoogleAnalyticsService $rcmGoogleAnalyticsService,
+        GetAnalyticEntityForSite $getAnalyticEntityForSite,
         IsAllowed $isAllowed,
         RcmGoogleAnalyticsHydrate $rcmGoogleAnalyticsHydrate,
         RcmGoogleAnalyticsToArray $rcmGoogleAnalyticsToArray
@@ -48,7 +48,7 @@ class ApiRcmGoogleAnalyticsUpdate
         $this->entityManager = $entityManager;
         $this->getCurrentSiteId = $getCurrentSiteId;
         $this->translate = $translate;
-        $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->getAnalyticEntityForSite = $getAnalyticEntityForSite;
         $this->isAllowed = $isAllowed;
         $this->rcmGoogleAnalyticsHydrate = $rcmGoogleAnalyticsHydrate;
         $this->rcmGoogleAnalyticsToArray = $rcmGoogleAnalyticsToArray;
@@ -78,10 +78,9 @@ class ApiRcmGoogleAnalyticsUpdate
             );
         }
 
-        $service = $this->rcmGoogleAnalyticsService;
         $currentSiteId = $this->getCurrentSiteId->__invoke($request);
 
-        $entity = $service->getAnalyticEntityForSite($currentSiteId);
+        $entity = $this->getAnalyticEntityForSite->__invoke($currentSiteId);
 
         if (empty($entity)) {
             return new JsonResponse(

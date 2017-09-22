@@ -2,6 +2,13 @@
 
 namespace Reliv\RcmGoogleAnalytics;
 
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetAnalyticEntityForSite;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetAnalyticEntityForSiteFactory;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntityFactory;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntityWithVerifyCode;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntityWithVerifyCodeFactory;
+
 /**
  * @author James Jervis - https://github.com/jerv13
  */
@@ -35,6 +42,15 @@ class RcmGoogleAnalyticsConfig
 
                     \Reliv\RcmGoogleAnalytics\Api\Render\RenderAnalyticsJs::class
                     => \Reliv\RcmGoogleAnalytics\Api\Render\RenderAnalyticsJsFactory::class,
+
+                    GetAnalyticEntityForSite::class
+                    => GetAnalyticEntityForSiteFactory::class,
+
+                    GetCurrentAnalyticEntity::class
+                    => GetCurrentAnalyticEntityFactory::class,
+
+                    GetCurrentAnalyticEntityWithVerifyCode::class
+                    => GetCurrentAnalyticEntityWithVerifyCodeFactory::class,
 
                     /**
                      * Get Site Id from RCM site by default

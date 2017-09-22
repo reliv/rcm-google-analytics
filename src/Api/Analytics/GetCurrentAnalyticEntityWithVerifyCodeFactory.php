@@ -1,27 +1,26 @@
 <?php
 
-namespace Reliv\RcmGoogleAnalytics\Middleware;
+namespace Reliv\RcmGoogleAnalytics\Api\Analytics;
 
 use Interop\Container\ContainerInterface;
-use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntityWithVerifyCode;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @author James Jervis - https://github.com/jerv13
  */
-class VerificationViewFactory
+class GetCurrentAnalyticEntityWithVerifyCodeFactory
 {
     /**
      * __invoke
      *
      * @param $container ContainerInterface|ServiceLocatorInterface
      *
-     * @return VerificationView
+     * @return GetCurrentAnalyticEntityWithVerifyCode
      */
     public function __invoke($container)
     {
-        return new VerificationView(
-            $container->get(GetCurrentAnalyticEntityWithVerifyCode::class)
+        return new GetCurrentAnalyticEntityWithVerifyCode(
+            $container->get(GetCurrentAnalyticEntity::class)
         );
     }
 }

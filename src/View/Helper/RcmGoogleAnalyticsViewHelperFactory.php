@@ -3,12 +3,13 @@
 namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
 use Interop\Container\ContainerInterface;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\HelperPluginManager;
 
 /**
  * @deprecated ZF2 version
- * @author James Jervis - https://github.com/jerv13
+ * @author     James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsViewHelperFactory
 {
@@ -27,8 +28,10 @@ class RcmGoogleAnalyticsViewHelperFactory
         }
 
         $config = $container->get('config');
-        $service = $container->get(\Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics::class);
 
-        return new RcmGoogleAnalyticsJsHelper($config['Reliv\RcmGoogleAnalytics'], $service);
+        return new RcmGoogleAnalyticsJsHelper(
+            $config['Reliv\RcmGoogleAnalytics'],
+            $container->get(GetCurrentAnalyticEntity::class)
+        );
     }
 }
