@@ -8,7 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @author James Jervis - https://github.com/jerv13
  *
  * @ORM\Entity
- * @ORM\Table(name="rcm_google_analytics")
+ * @ORM\Table(
+ *     name="rcm_google_analytics",
+ *     indexes={@ORM\Index(name="siteId", columns={"siteId"})}
+ * )
  */
 class RcmGoogleAnalytics
 {
@@ -38,7 +41,7 @@ class RcmGoogleAnalytics
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique = true)
      */
     protected $siteId;
 
