@@ -113,7 +113,7 @@ class ApiRcmGoogleAnalyticsDelete
                 'message' => '',
                 'errors' => [],
             ],
-            400
+            200
         );
     }
 }
