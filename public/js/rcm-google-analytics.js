@@ -1,171 +1,193 @@
 /**
  * rcm-google-analytics
  */
-angular.module('rcmGoogleAnalytics', ['rcmApi', 'pascalprecht.translate'])
+angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
     .controller(
-    'rcmGoogleAnalyticsAdminController',
-    [
-        '$log', 'rcmApiService', 'translateFilter',
-        function ($log, rcmApiService, translateFilter) {
+        'rcmGoogleAnalyticsAdminController',
+        [
+            '$http', 'translateFilter',
+            function ($http, translateFilter) {
 
-            var self = this;
+                var self = this;
 
-            self.loading = true;
-            self.analyticSettings = {};
-            self.error = null;
-            self.hasAccess = false;
-
-            /* translations:
-                "Loading.."
-                "Google Analytics Tracking Id"
-                "Submit"
-                "Remove"
-            */
-
-            self.isNewAnalyticSettings = true;
-
-            var url = '/api/rcm-google-analytics/current';
-
-            var onLoadingChange = function (loading) {
-                self.loading = loading;
-            };
-
-
-            /**
-             * onGetAnalyticSettingsSuccess
-             * @param data
-             */
-            var onGetAnalyticSettingsSuccess = function (data) {
-                self.isNewAnalyticSettings = false;
-                self.hasAccess = true;
-                self.analyticSettings = data.data;
-            };
-
-            /**
-             * onGetAnalyticSettingsError
-             * @param data
-             */
-            var onGetAnalyticSettingsError = function (data) {
-                if (data.code == 404) {
-                    self.isNewAnalyticSettings = true;
-                }
-
-                if (data.code != 401) {
-                    self.hasAccess = true;
-                }
-
-                if (data.code == 401) {
-                    self.hasAccess = false;
-                    self.error = data;
-                }
-            };
-
-            /**
-             * onSaveAnalyticSettingsSuccess
-             * @param data
-             */
-            var onSaveAnalyticSettingsSuccess = function (data) {
-                self.isNewAnalyticSettings = false;
-                self.analyticSettings = data.data;
-            };
-
-            /**
-             * onSaveAnalyticSettingsError
-             * @param data
-             */
-            var onSaveAnalyticSettingsError = function (data) {
-                self.error = data;
-            };
-
-            /**
-             * onDeleteAnalyticSettingsSuccess
-             * @param data
-             */
-            var onDeleteAnalyticSettingsSuccess = function (data) {
-                self.isNewAnalyticSettings = true;
+                self.loading = true;
                 self.analyticSettings = {};
-            };
-
-            /**
-             * getAnalyticSettings
-             */
-            self.getAnalyticSettings = function () {
                 self.error = null;
+                self.hasAccess = false;
 
-                var apiParams = {
-                    url: url,
-                    data: self.analyticSettings,
-                    prepareErrors: true,
-                    loading: onLoadingChange,
-                    success: onGetAnalyticSettingsSuccess,
-                    error: onGetAnalyticSettingsError
+                /* translations:
+                 "Loading.."
+                 "Google Analytics Tracking Id"
+                 "Submit"
+                 "Remove"
+                 */
+
+                self.isNewAnalyticSettings = true;
+
+                var url = '/api/rcm-google-analytics/current';
+
+                var onLoadingChange = function (loading) {
+                    self.loading = loading;
                 };
 
-                rcmApiService.get(apiParams);
-            };
-
-            /**
-             * saveAnalyticSettings
-             */
-            self.saveAnalyticSettings = function () {
-
-                self.error = null;
-
-                var apiParams = {
-                    url: url,
-                    data: self.analyticSettings,
-                    prepareErrors: true,
-                    loading: onLoadingChange,
-                    success: onSaveAnalyticSettingsSuccess,
-                    error: onSaveAnalyticSettingsError
+                /**
+                 * onGetAnalyticSettingsSuccess
+                 * @param response
+                 */
+                var onGetAnalyticSettingsSuccess = function (response) {
+                    self.isNewAnalyticSettings = false;
+                    self.hasAccess = true;
+                    self.analyticSettings = response.data;
                 };
 
-                if (self.isNewAnalyticSettings) {
+                /**
+                 * onGetAnalyticSettingsError
+                 * @param response
+                 */
+                var onGetAnalyticSettingsError = function (response) {
+                    if (response.code == 404) {
+                        self.isNewAnalyticSettings = true;
+                    }
 
-                    rcmApiService.post(apiParams);
-                } else {
+                    if (response.code != 401) {
+                        self.hasAccess = true;
+                    }
 
-                    rcmApiService.patch(apiParams);
-                }
-            };
-
-            /**
-             * deleteAnalyticSettings
-             */
-            self.deleteAnalyticSettings = function () {
-
-                self.error = null;
-
-                var apiParams = {
-                    url: url,
-                    data: self.analyticSettings,
-                    prepareErrors: true,
-                    loading: onLoadingChange,
-                    success: onDeleteAnalyticSettingsSuccess,
-                    error: onSaveAnalyticSettingsError
+                    if (response.code == 401) {
+                        self.hasAccess = false;
+                        self.error = data;
+                    }
                 };
 
-                rcmApiService.del(apiParams);
+                /**
+                 * onSaveAnalyticSettingsSuccess
+                 * @param response
+                 */
+                var onSaveAnalyticSettingsSuccess = function (response) {
+                    self.isNewAnalyticSettings = false;
+                    self.analyticSettings = response.data;
+                };
 
-            };
-            /**
-             * initAnalytics
-             */
-            self.initAnalytics = function () {
-                self.getAnalyticSettings();
-            };
+                /**
+                 * onSaveAnalyticSettingsError
+                 * @param response
+                 */
+                var onSaveAnalyticSettingsError = function (response) {
+                    self.error = response.messages;
+                };
 
-            /**
-             * init
-             */
-            self.init = function () {
+                /**
+                 * onDeleteAnalyticSettingsSuccess
+                 * @param response
+                 */
+                var onDeleteAnalyticSettingsSuccess = function (response) {
+                    self.isNewAnalyticSettings = true;
+                    self.analyticSettings = {};
+                };
 
-                self.initAnalytics();
-            };
+                /**
+                 * getAnalyticSettings
+                 */
+                self.getAnalyticSettings = function () {
+                    self.error = null;
 
+                    var apiParams = {
+                        method: 'GET',
+                        url: url,
+                    };
 
-            ///////////
-            self.init();
-        }
-    ]
-);
+                    $http(
+                        apiParams
+                    ).then(
+                        function successCallback(response) {
+                            onLoadingChange(false);
+                            onGetAnalyticSettingsSuccess(response.data);
+                        },
+                        function errorCallback(response) {
+                            onLoadingChange(false);
+                            onGetAnalyticSettingsError(response.data);
+                        }
+                    );
+                };
+
+                /**
+                 * saveAnalyticSettings
+                 */
+                self.saveAnalyticSettings = function () {
+
+                    self.error = null;
+
+                    var apiParams = {
+                        url: url,
+                        data: self.analyticSettings,
+                    };
+
+                    if (self.isNewAnalyticSettings) {
+                        apiParams.method = 'POST';
+                    } else {
+                        apiParams.method = 'PATCH';
+                    }
+
+                    $http(
+                        apiParams
+                    ).then(
+                        function successCallback(response) {
+                            onLoadingChange(false);
+                            onSaveAnalyticSettingsSuccess(response.data);
+                        },
+                        function errorCallback(response) {
+                            onLoadingChange(false);
+                            onSaveAnalyticSettingsError(response.data);
+                        }
+                    );
+                };
+
+                /**
+                 * deleteAnalyticSettings
+                 */
+                self.deleteAnalyticSettings = function () {
+
+                    self.error = null;
+
+                    var apiParams = {
+                        method: 'DELETE',
+                        url: url,
+                        data: self.analyticSettings,
+                        loading: onLoadingChange,
+                        success: onDeleteAnalyticSettingsSuccess,
+                        error: onSaveAnalyticSettingsError
+                    };
+
+                    $http(
+                        apiParams
+                    ).then(
+                        function successCallback(response) {
+                            onLoadingChange(false);
+                            onDeleteAnalyticSettingsSuccess(response.data);
+                        },
+                        function errorCallback(response) {
+                            onLoadingChange(false);
+                            onSaveAnalyticSettingsError(response.data);
+                        }
+                    );
+                };
+                /**
+                 * initAnalytics
+                 */
+                self.initAnalytics = function () {
+                    self.getAnalyticSettings();
+                };
+
+                /**
+                 * init
+                 */
+                self.init = function () {
+
+                    self.initAnalytics();
+                };
+
+                ///////////
+                self.init();
+            }
+        ]
+    );
