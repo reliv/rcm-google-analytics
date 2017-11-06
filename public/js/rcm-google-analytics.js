@@ -1,4 +1,24 @@
 /**
+ * rcm-google-analytics-config
+ *
+ * @type {{}}
+ */
+var rcmGoogleAnalyticsConfig = {
+    onAccessDenied : function (response) {
+        // Default do nothing
+        // console.error(response)
+    },
+    onNotFound : function (response) {
+        // Default do nothing
+        // console.error(response)
+    },
+    onSaveSuccess : function (response) {
+        // Default do nothing
+        // console.log(response)
+    },
+};
+
+/**
  * rcm-google-analytics
  */
 angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
@@ -13,6 +33,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 self.loading = true;
                 self.analyticSettings = {};
                 self.error = null;
+                self.success = null;
                 self.hasAccess = false;
 
                 /* translations:
@@ -28,6 +49,11 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
 
                 var onLoadingChange = function (loading) {
                     self.loading = loading;
+                };
+
+                var clearMessages = function () {
+                    self.error = null;
+                    self.success = null;
                 };
 
                 /**
@@ -47,6 +73,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 var onGetAnalyticSettingsError = function (response) {
                     if (response.code == 404) {
                         self.isNewAnalyticSettings = true;
+                        rcmGoogleAnalyticsConfig.onNotFound(response);
                     }
 
                     if (response.code != 401) {
@@ -55,7 +82,8 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
 
                     if (response.code == 401) {
                         self.hasAccess = false;
-                        self.error = data;
+                        self.error = response.message;
+                        rcmGoogleAnalyticsConfig.onAccessDenied(response);
                     }
                 };
 
@@ -66,6 +94,8 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 var onSaveAnalyticSettingsSuccess = function (response) {
                     self.isNewAnalyticSettings = false;
                     self.analyticSettings = response.data;
+                    self.success = response.message;
+                    rcmGoogleAnalyticsConfig.onSaveSuccess(response);
                 };
 
                 /**
@@ -73,7 +103,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * @param response
                  */
                 var onSaveAnalyticSettingsError = function (response) {
-                    self.error = response.messages;
+                    self.error = response.message;
                 };
 
                 /**
@@ -89,7 +119,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * getAnalyticSettings
                  */
                 self.getAnalyticSettings = function () {
-                    self.error = null;
+                    clearMessages();
 
                     var apiParams = {
                         method: 'GET',
@@ -114,8 +144,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * saveAnalyticSettings
                  */
                 self.saveAnalyticSettings = function () {
-
-                    self.error = null;
+                    clearMessages();
 
                     var apiParams = {
                         url: url,
@@ -146,8 +175,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * deleteAnalyticSettings
                  */
                 self.deleteAnalyticSettings = function () {
-
-                    self.error = null;
+                    clearMessages();
 
                     var apiParams = {
                         method: 'DELETE',
@@ -182,7 +210,6 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * init
                  */
                 self.init = function () {
-
                     self.initAnalytics();
                 };
 
