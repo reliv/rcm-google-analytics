@@ -2,72 +2,51 @@
 
 namespace Reliv\RcmGoogleAnalytics\Service;
 
-use Doctrine\ORM\EntityManager;
+use Psr\Http\Message\ServerRequestInterface;
 use Rcm\Entity\Site;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetAnalyticEntityForSite;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntityWithVerifyCode;
 use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics as RcmGoogleAnalyticsEntity;
 
 /**
- * Class RcmGoogleAnalytics
- *
- * RcmGoogleAnalytics Service
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   moduleNameHere
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @deprecated Use Reliv\RcmGoogleAnalytics\Api\*
+ * @author     James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalytics
 {
     /**
-     * @var EntityManager
+     * @var GetAnalyticEntityForSite
      */
-    protected $entityManager = null;
+    protected $getAnalyticEntityForSite;
 
     /**
-     * @var Site|null
+     * @var GetCurrentAnalyticEntity
      */
-    protected $currentSite = null;
+    protected $getCurrentAnalyticEntity;
 
     /**
-     * @param EntityManager    $entityManager
-     * @param Site $currentSite
+     * @var GetCurrentAnalyticEntityWithVerifyCode
+     */
+    protected $getCurrentAnalyticEntityWithVerifyCode;
+
+    /**
+     * @param GetAnalyticEntityForSite               $getAnalyticEntityForSite
+     * @param GetCurrentAnalyticEntity               $getCurrentAnalyticEntity
+     * @param GetCurrentAnalyticEntityWithVerifyCode $getCurrentAnalyticEntityWithVerifyCode
      */
     public function __construct(
-        EntityManager $entityManager,
-        Site $currentSite
+        GetAnalyticEntityForSite $getAnalyticEntityForSite,
+        GetCurrentAnalyticEntity $getCurrentAnalyticEntity,
+        GetCurrentAnalyticEntityWithVerifyCode $getCurrentAnalyticEntityWithVerifyCode
     ) {
-        $this->entityManager = $entityManager;
-        $this->currentSite = $currentSite;
+        $this->getAnalyticEntityForSite = $getAnalyticEntityForSite;
+        $this->getCurrentAnalyticEntity = $getCurrentAnalyticEntity;
+        $this->getCurrentAnalyticEntityWithVerifyCode = $getCurrentAnalyticEntityWithVerifyCode;
     }
 
     /**
-     * get RcmGoogleAnalytics Repository
-     *
-     * @return \Doctrine\ORM\EntityRepository|\Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics
-     */
-    protected function getRepository()
-    {
-        return $this->entityManager->getRepository(
-            \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics::class
-        );
-    }
-
-    /**
-     * get Current Site
-     *
-     * @return null|\Rcm\Entity\Site
-     */
-    protected function getCurrentSite()
-    {
-        return $this->currentSite;
-    }
-
-    /**
+     * @deprecated
      * Get Analytic Entity for current a site
      *
      * @param Site $site
@@ -75,48 +54,69 @@ class RcmGoogleAnalytics
      *
      * @return null|RcmGoogleAnalyticsEntity
      */
-    public function getSiteAnalyticEntity(Site $site, $default = null)
-    {
-        $analytics = $this->getRepository()->findOneBy(['site' => $site]);
+    public function getSiteAnalyticEntity(
+        Site $site,
+        $default = null
+    ) {
+        return $this->getAnalyticEntityForSite(
+            $site->getSiteId(),
+            $default
+        );
+    }
 
-        if (!empty($analytics)) {
-            return $analytics;
-        }
-
-        return $default;
+    /**
+     * @param      $siteId
+     * @param null $default
+     *
+     * @return null|RcmGoogleAnalyticsEntity
+     */
+    public function getAnalyticEntityForSite(
+        $siteId,
+        $default = null
+    ) {
+        return $this->getAnalyticEntityForSite->__invoke(
+            $siteId,
+            $default
+        );
     }
 
     /**
      * Get Analytic Entity for current site
      *
-     * @param null $default
+     * @param ServerRequestInterface $request
+     * @param null                   $default
      *
      * @return null|RcmGoogleAnalyticsEntity
      */
-    public function getCurrentAnalyticEntity($default = null)
-    {
-        $site = $this->getCurrentSite();
-
-        return $this->getSiteAnalyticEntity($site, $default);
+    public function getCurrentAnalyticEntity(
+        ServerRequestInterface $request,
+        $default = null
+    ) {
+        return $this->getCurrentAnalyticEntity->__invoke(
+            $request,
+            $default
+        );
     }
 
     /**
      * get Current Analytic Entity With VerifyCode
      * This can be used if verification code is needed
      *
-     * @param string $verificationCode
-     * @param null $default
+     * @param ServerRequestInterface $request
+     * @param string                 $verificationCode
+     * @param null                   $default
      *
      * @return null|RcmGoogleAnalyticsEntity
      */
-    public function getCurrentAnalyticEntityWithVerifyCode($verificationCode, $default = null)
-    {
-        $entity = $this->getCurrentAnalyticEntity(new RcmGoogleAnalyticsEntity());
-
-        if ($entity->getVerificationCode() !== $verificationCode) {
-            return $default;
-        }
-
-        return $entity;
+    public function getCurrentAnalyticEntityWithVerifyCode(
+        ServerRequestInterface $request,
+        $verificationCode,
+        $default = null
+    ) {
+        return $this->getCurrentAnalyticEntityWithVerifyCode->__invoke(
+            $request,
+            $verificationCode,
+            $default
+        );
     }
 }

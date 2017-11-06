@@ -1,21 +1,26 @@
 
-<!-- <RCM Google Analytics TEST> -->
-<script>
-    // pseudo ga
-    var ga = function(a) {
-        // do nothing
-    };
-</script>
-<pre style="display: none">
-<?php
-if ($this->model->hasTracking()) {
+    <script>
+        /** RCM Google Analytics TEST */
+        // pseudo ga
+        var ga = function(a) {
+            // do nothing
+        };
 
-    echo "\nAnalytics for this site: \n";
-} else {
-
-    echo "\nNo Analytics set for this site\n";
-}
-var_export($this->model->toArray());
-?>
-</pre>
-<!-- </RCM Google Analytics TEST> -->
+        /**
+        <?php
+        if ($this->model->hasTracking()) {
+            echo "\n";
+            echo "        Analytics for this site: \n";
+            echo "          id: {$this->model->getId()} \n";
+            echo "          trackingId: {$this->model->getTrackingId()} \n";
+            echo "          verificationCode: {$this->model->getVerificationCode()} \n";
+            echo "          siteId: {$this->model->getSiteId()} \n";
+            echo "\n";
+        } else {
+            echo "\n";
+            echo "        No Analytics set for this site\n";
+            echo "\n";
+        }
+        ?>
+        */
+    </script>

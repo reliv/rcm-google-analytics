@@ -2,23 +2,14 @@
 
 namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
-use Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics;
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
+use Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics;
+use Reliv\RcmGoogleAnalytics\PsrServerRequest;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Class RcmGoogleAnalyticsJsHelper
- *
- * RcmGoogleAnalyticsJs Helper
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   moduleNameHere
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @deprecated ZF2 version
+ * @author James Jervis - https://github.com/jerv13
  */
 class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 {
@@ -29,9 +20,9 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
     protected $config;
 
     /**
-     * @var RcmGoogleAnalytics
+     * @var GetCurrentAnalyticEntity
      */
-    protected $rcmGoogleAnalyticsService;
+    protected $getCurrentAnalyticEntity;
 
     /**
      * @var object
@@ -40,15 +31,16 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
 
     /**
      * __construct
+     *
      * @param array              $config
-     * @param RcmGoogleAnalytics $rcmGoogleAnalyticsService
+     * @param GetCurrentAnalyticEntity $getCurrentAnalyticEntity
      */
     public function __construct(
         $config,
-        RcmGoogleAnalytics $rcmGoogleAnalyticsService
+        GetCurrentAnalyticEntity $getCurrentAnalyticEntity
     ) {
         $this->config = $config;
-        $this->rcmGoogleAnalyticsService = $rcmGoogleAnalyticsService;
+        $this->getCurrentAnalyticEntity = $getCurrentAnalyticEntity;
     }
 
     /**
@@ -62,8 +54,13 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
             return "";
         };
 
-        $this->model = $this->rcmGoogleAnalyticsService->getCurrentAnalyticEntity(
-            new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics()
+        $psrRequest = PsrServerRequest::get();
+
+        $default = new RcmGoogleAnalytics();
+
+        $this->model = $this->getCurrentAnalyticEntity->__invoke(
+            $psrRequest,
+            $default
         );
 
         return $this->getView()->partial(

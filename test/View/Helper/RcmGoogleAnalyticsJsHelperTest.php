@@ -3,6 +3,8 @@
 
 namespace Reliv\RcmGoogleAnalytics\View\Helper;
 
+use Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity;
+
 require_once(__DIR__ . '/../../autoload.php');
 require_once(__DIR__ . '/MockView.php');
 
@@ -25,11 +27,11 @@ class RcmGoogleAnalyticsJsHelperTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * getMockRcmGoogleAnalyticsService
+     * getMockGetCurrentAnalyticEntity
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics
+     * @return GetCurrentAnalyticEntity MOCK
      */
-    public function getMockRcmGoogleAnalyticsService()
+    public function getMockGetCurrentAnalyticEntity()
     {
 
         $return = new \Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics();
@@ -37,13 +39,14 @@ class RcmGoogleAnalyticsJsHelperTest extends \PHPUnit_Framework_TestCase
         $return->setId(123);
 
         $service = $this->getMockBuilder(
-            '\Reliv\RcmGoogleAnalytics\Service\RcmGoogleAnalytics'
+            GetCurrentAnalyticEntity::class
         )
             ->disableOriginalConstructor()
             ->getMock();
+        
 
         $service->expects($this->any())
-            ->method('getCurrentAnalyticEntity')
+            ->method('__invoke')
             ->will(
                 $this->returnValue($return)
             );
@@ -65,7 +68,7 @@ class RcmGoogleAnalyticsJsHelperTest extends \PHPUnit_Framework_TestCase
 
         $unit = new RcmGoogleAnalyticsJsHelper(
             $config,
-            $this->getMockRcmGoogleAnalyticsService()
+            $this->getMockGetCurrentAnalyticEntity()
         );
 
         $this->assertEquals('', $unit->__invoke());
@@ -77,7 +80,7 @@ class RcmGoogleAnalyticsJsHelperTest extends \PHPUnit_Framework_TestCase
 
         $unit = new RcmGoogleAnalyticsJsHelper(
             $config,
-            $this->getMockRcmGoogleAnalyticsService()
+            $this->getMockGetCurrentAnalyticEntity()
         );
 
         $unit->setView(new MockView());

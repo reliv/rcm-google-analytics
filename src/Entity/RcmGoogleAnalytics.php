@@ -3,28 +3,17 @@
 namespace Reliv\RcmGoogleAnalytics\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Rcm\Entity\AbstractApiModel;
-use Rcm\Entity\Site;
 
 /**
- * Class GoogleAnalytics
- *
- * Entity
- *
- * PHP version 5
- *
- * @category  Reliv
- * @package   moduleNameHere
- * @author    James Jervis <jjervis@relivinc.com>
- * @copyright 2015 Reliv International
- * @license   License.txt New BSD License
- * @version   Release: <package_version>
- * @link      https://github.com/reliv
+ * @author James Jervis - https://github.com/jerv13
  *
  * @ORM\Entity
- * @ORM\Table(name="rcm_google_analytics")
+ * @ORM\Table(
+ *     name="rcm_google_analytics",
+ *     indexes={@ORM\Index(name="siteId", columns={"siteId"})}
+ * )
  */
-class RcmGoogleAnalytics extends AbstractApiModel
+class RcmGoogleAnalytics
 {
     /**
      * @var int
@@ -50,23 +39,11 @@ class RcmGoogleAnalytics extends AbstractApiModel
     protected $verificationCode;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", unique = true)
      */
     protected $siteId;
-
-    /**
-     * @var \Rcm\Entity\Site
-     *
-     * @ORM\OneToOne(targetEntity="\Rcm\Entity\Site")
-     * @ORM\JoinColumn(
-     *     name="siteId",
-     *     referencedColumnName="siteId",
-     *     onDelete="CASCADE"
-     * )
-     */
-    protected $site;
 
     /**
      * get Id
@@ -87,7 +64,7 @@ class RcmGoogleAnalytics extends AbstractApiModel
      */
     public function setId($id)
     {
-        $this->id = (int)$id;
+        $this->id = $id;
     }
 
     /**
@@ -155,71 +132,20 @@ class RcmGoogleAnalytics extends AbstractApiModel
     }
 
     /**
-     * get Site Id
+     * @param $siteId
      *
-     * @return int
+     * @return void
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+    }
+
+    /**
+     * @return int|string
      */
     public function getSiteId()
     {
         return $this->siteId;
-    }
-
-    /**
-     * get Site
-     *
-     * @return \Rcm\Entity\Site
-     */
-    public function getSite()
-    {
-        return $this->site;
-    }
-
-    /**
-     * set Site
-     *
-     * @param \Rcm\Entity\Site $site
-     *
-     * @return void
-     */
-    public function setSite(Site $site)
-    {
-        $this->site = $site;
-        $this->siteId = $site->getSiteId();
-    }
-
-    /**
-     * get Host
-     *
-     * @return null|string
-     */
-    public function getHost()
-    {
-        if (empty($this->site)) {
-            return null;
-        }
-
-        $domain = $this->site->getDomain();
-
-        if (empty($domain) || empty($domain->getDomainName())) {
-            return null;
-        }
-
-        return $domain->getDomainName();
-    }
-
-    /**
-     * @param array $ignore
-     *
-     * @return array
-     */
-    public function toArray($ignore = [])
-    {
-        $array = parent::toArray();
-
-        $array['host'] = $this->getHost();
-
-        unset($array['site']);
-
-        return $array;
     }
 }
