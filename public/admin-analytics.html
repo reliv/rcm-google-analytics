@@ -13,10 +13,6 @@
         {{self.error | translate}}
     </div>
 
-    <div class="alert alert-success" role="alert" ng-show="self.success">
-        {{self.success | translate}}
-    </div>
-
     <div ng-show="self.hasAccess">
         <div>
             <form ng-submit="self.saveAnalyticSettings()">
