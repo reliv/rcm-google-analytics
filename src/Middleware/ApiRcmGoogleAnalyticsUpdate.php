@@ -139,7 +139,7 @@ class ApiRcmGoogleAnalyticsUpdate
             [
                 'data' => $this->rcmGoogleAnalyticsToArray->__invoke($entity),
                 'code' => 200,
-                'message' => '',
+                'message' => $this->translate->__invoke('Changes Saved'),
                 'errors' => [],
             ],
             200

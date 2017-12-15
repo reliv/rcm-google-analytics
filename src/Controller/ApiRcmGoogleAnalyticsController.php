@@ -19,7 +19,7 @@ use Zend\Stdlib\ResponseInterface;
 
 /**
  * @deprecated ZF2 version
- * @author James Jervis - https://github.com/jerv13
+ * @author     James Jervis - https://github.com/jerv13
  */
 class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
 {
@@ -136,7 +136,9 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         }
 
         return new ApiJsonModel(
-            $this->rcmGoogleAnalyticsToArray->__invoke($entity)
+            $this->rcmGoogleAnalyticsToArray->__invoke($entity),
+            200,
+            $this->translate->__invoke('Changes Saved')
         );
     }
 
@@ -197,7 +199,11 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
             );
         }
 
-        return new ApiJsonModel(null);
+        return new ApiJsonModel(
+            null,
+            200,
+            $this->translate->__invoke('Changes Saved')
+        );
     }
 
     /**
@@ -326,7 +332,9 @@ class ApiRcmGoogleAnalyticsController extends AbstractRestfulController
         }
 
         return new ApiJsonModel(
-            $this->rcmGoogleAnalyticsToArray->__invoke($entity)
+            $this->rcmGoogleAnalyticsToArray->__invoke($entity),
+            200,
+            $this->translate->__invoke('Changes Saved')
         );
     }
 }

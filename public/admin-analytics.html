@@ -10,7 +10,11 @@
     </div>
 
     <div class="alert alert-warning" role="alert" ng-show="self.error">
-        {{self.error.message}}
+        {{self.error | translate}}
+    </div>
+
+    <div class="alert alert-success" role="alert" ng-show="self.success">
+        {{self.success | translate}}
     </div>
 
     <div ng-show="self.hasAccess">
