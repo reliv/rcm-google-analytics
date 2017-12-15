@@ -1,4 +1,24 @@
 /**
+ * rcm-google-analytics-config
+ *
+ * @type {{}}
+ */
+var rcmGoogleAnalyticsConfig = {
+    onAccessDenied : function (response) {
+        // Default do nothing
+        // console.error(response)
+    },
+    onNotFound : function (response) {
+        // Default do nothing
+        // console.error(response)
+    },
+    onSaveSuccess : function (response) {
+        // Default do nothing
+        // console.log(response)
+    },
+};
+
+/**
  * rcm-google-analytics
  */
 angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
@@ -41,6 +61,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 var onGetAnalyticSettingsError = function (response) {
                     if (response.code == 404) {
                         self.isNewAnalyticSettings = true;
+                        rcmGoogleAnalyticsConfig.onNotFound(response);
                     }
 
                     if (response.code != 401) {
@@ -48,10 +69,8 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                     }
 
                     if (response.code == 401) {
-                        console.log(location);
-                        location.href = '/login?redirect=' + encodeURIComponent(location.pathname);
                         self.hasAccess = false;
-                        self.error = data;
+                        rcmGoogleAnalyticsConfig.onAccessDenied(response);
                     }
                 };
 
@@ -63,6 +82,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                     self.isNewAnalyticSettings = false;
                     self.analyticSettings = response.data;
                     self.showSaveSuccessMessage = true;
+                    rcmGoogleAnalyticsConfig.onSaveSuccess(response);
                 };
 
                 /**
