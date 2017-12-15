@@ -14,13 +14,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 self.analyticSettings = {};
                 self.error = null;
                 self.hasAccess = false;
-
-                /* translations:
-                 "Loading.."
-                 "Google Analytics Tracking Id"
-                 "Submit"
-                 "Remove"
-                 */
+                self.showSaveSuccessMessage = false;
 
                 self.isNewAnalyticSettings = true;
 
@@ -54,6 +48,8 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                     }
 
                     if (response.code == 401) {
+                        console.log(location);
+                        location.href = '/login?redirect=' + encodeURIComponent(location.pathname);
                         self.hasAccess = false;
                         self.error = data;
                     }
@@ -66,6 +62,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 var onSaveAnalyticSettingsSuccess = function (response) {
                     self.isNewAnalyticSettings = false;
                     self.analyticSettings = response.data;
+                    self.showSaveSuccessMessage = true;
                 };
 
                 /**
@@ -77,19 +74,12 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 };
 
                 /**
-                 * onDeleteAnalyticSettingsSuccess
-                 * @param response
-                 */
-                var onDeleteAnalyticSettingsSuccess = function (response) {
-                    self.isNewAnalyticSettings = true;
-                    self.analyticSettings = {};
-                };
-
-                /**
                  * getAnalyticSettings
                  */
                 self.getAnalyticSettings = function () {
                     self.error = null;
+                    self.showSaveSuccessMessage = false;
+                    self.loading = true;
 
                     var apiParams = {
                         method: 'GET',
@@ -100,11 +90,11 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                         apiParams
                     ).then(
                         function successCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onGetAnalyticSettingsSuccess(response.data);
                         },
                         function errorCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onGetAnalyticSettingsError(response.data);
                         }
                     );
@@ -114,8 +104,9 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * saveAnalyticSettings
                  */
                 self.saveAnalyticSettings = function () {
-
                     self.error = null;
+                    self.showSaveSuccessMessage = false;
+                    self.loading = true;
 
                     var apiParams = {
                         url: url,
@@ -132,45 +123,16 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                         apiParams
                     ).then(
                         function successCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onSaveAnalyticSettingsSuccess(response.data);
                         },
                         function errorCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onSaveAnalyticSettingsError(response.data);
                         }
                     );
                 };
 
-                /**
-                 * deleteAnalyticSettings
-                 */
-                self.deleteAnalyticSettings = function () {
-
-                    self.error = null;
-
-                    var apiParams = {
-                        method: 'DELETE',
-                        url: url,
-                        data: self.analyticSettings,
-                        loading: onLoadingChange,
-                        success: onDeleteAnalyticSettingsSuccess,
-                        error: onSaveAnalyticSettingsError
-                    };
-
-                    $http(
-                        apiParams
-                    ).then(
-                        function successCallback(response) {
-                            onLoadingChange(false);
-                            onDeleteAnalyticSettingsSuccess(response.data);
-                        },
-                        function errorCallback(response) {
-                            onLoadingChange(false);
-                            onSaveAnalyticSettingsError(response.data);
-                        }
-                    );
-                };
                 /**
                  * initAnalytics
                  */

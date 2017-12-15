@@ -1,4 +1,3 @@
-
 <div class="rcm-google-analytics"
      ng-controller="rcmGoogleAnalyticsAdminController as self" ng-cloak="true">
 
@@ -6,7 +5,6 @@
         <div class="loading-container">
             <div class="loading-content">
                 <span class="loading-indicator"></span>
-                <span class="loading-message">{{"Loading" | translate}}</span>
             </div>
         </div>
     </div>
@@ -17,49 +15,38 @@
 
     <div ng-show="self.hasAccess">
         <div>
-            <form>
+            <form ng-submit="self.saveAnalyticSettings()">
+
+                <div class="alert alert-success" role="alert" ng-show="self.showSaveSuccessMessage">
+                    {{"Your changes have been saved." | translate}}
+                </div>
+                <p>
+                    {{"This page allows you to connect your website to Google Analytics." | translate}}<br>
+                    {{"The Google Analytics dashboard is provided by Google at" | translate}}
+                    <a href="https://analytics.google.com">https://analytics.google.com</a><br>
+                    <br>
+                    {{"Google Analytics Setup Instructions:" | translate}}<br>
+                    {{"Step 1) Login to Google Analytics and get a Tracking ID for your website from Google." | translate}}<br>
+                    {{"Step 2) Enter your tracking ID in the field below and click \"save\"." | translate}}<br>
+                    {{"Step 3) View analytics from your website at" | translate}}
+                    <a href="https://analytics.google.com">https://analytics.google.com</a>
+                    <br>
+                </p>
                 <br>
                 <div class="form-group">
-                    <label for="trackingId"><h3>{{"Google Analytics Tracking Id" | translate}}</h3></label>
-                    <p>
-                        {{'Get this from the Google Analytics dashboard. This is a code that starts with "UA-".' | translate}}
-                    </p>
+                    <label for="trackingId">{{"Google Analytics Tracking Id (should look similar to UA-000000-01):" |
+                        translate}}</label>
                     <input type="text"
                            class="form-control"
                            id="trackingId"
-                           placeholder="UA-000000-01"
                            ng-disabled="self.loading"
                            ng-model="self.analyticSettings.trackingId">
                 </div>
-                <br><br>
-                <div class="form-group">
-                    <label for="verificationCode"><h3>{{"Google Site Verification Code" | translate}}</h3></label>
-                    <p>
-                        {{'THIS IS NOT REQUIRED FOR GOOGLE ANALYTICS. LEAVE THIS BLANK UNLESS YOU KNOW YOU NEED IT FOR SOME OTHER GOOGLE SERVICE. For site verification google tells you to download a file and upload it to your website. Look at the file google says to upload to your website. If the file google wants you to upload to your site is named google897453eca4006f4b.html, you would enter 897453eca4006f4b in this form field.' | translate}}
-                    </p>
-                    <input type="text"
-                           class="form-control"
-                           id="verificationCode"
-                           placeholder=""
-                           ng-disabled="self.loading"
-                           ng-model="self.analyticSettings.verificationCode">
-                </div>
-                <br><br>
-                <button type="button"
+                <button type="submit"
                         class="btn btn-primary"
-                        ng-disabled="self.loading"
-                        ng-click="self.saveAnalyticSettings()">
+                        ng-disabled="self.loading">
                     {{"Save" | translate}}
                 </button>
-                <!--
-                <button type="button"
-                        class="btn btn-default"
-                        ng-click="self.deleteAnalyticSettings()"
-                        ng-disabled="self.loading"
-                        ng-hide="self.isNewAnalyticSettings">
-                    {{"Clear Google Settings" | translate}}
-                </button>
-                -->
             </form>
         </div>
     </div>
