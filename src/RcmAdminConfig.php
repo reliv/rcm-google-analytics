@@ -24,8 +24,8 @@ class RcmAdminConfig
                         'pages' => [
                             'Google Analytics' => [
                                 'label' => 'Google Analytics',
-                                'class' => 'rcmAdminMenu rcmStandardDialog',
-                                'uri' => '/modules/rcm-google-analytics/admin-analytics.html',
+//                                'class' => 'rcmAdminMenu rcmStandardDialog',
+                                'uri' => '/rcm-google-analytics',
                                 'title' => 'Google Analytics Settings',
                             ]
                         ]

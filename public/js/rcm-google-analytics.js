@@ -33,15 +33,8 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 self.loading = true;
                 self.analyticSettings = {};
                 self.error = null;
-                self.success = null;
                 self.hasAccess = false;
-
-                /* translations:
-                 "Loading.."
-                 "Google Analytics Tracking Id"
-                 "Submit"
-                 "Remove"
-                 */
+                self.showSaveSuccessMessage = false;
 
                 self.isNewAnalyticSettings = true;
 
@@ -49,11 +42,6 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
 
                 var onLoadingChange = function (loading) {
                     self.loading = loading;
-                };
-
-                var clearMessages = function () {
-                    self.error = null;
-                    self.success = null;
                 };
 
                 /**
@@ -82,7 +70,6 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
 
                     if (response.code == 401) {
                         self.hasAccess = false;
-                        self.error = response.message;
                         rcmGoogleAnalyticsConfig.onAccessDenied(response);
                     }
                 };
@@ -94,7 +81,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                 var onSaveAnalyticSettingsSuccess = function (response) {
                     self.isNewAnalyticSettings = false;
                     self.analyticSettings = response.data;
-                    self.success = response.message;
+                    self.showSaveSuccessMessage = true;
                     rcmGoogleAnalyticsConfig.onSaveSuccess(response);
                 };
 
@@ -103,23 +90,16 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * @param response
                  */
                 var onSaveAnalyticSettingsError = function (response) {
-                    self.error = response.message;
-                };
-
-                /**
-                 * onDeleteAnalyticSettingsSuccess
-                 * @param response
-                 */
-                var onDeleteAnalyticSettingsSuccess = function (response) {
-                    self.isNewAnalyticSettings = true;
-                    self.analyticSettings = {};
+                    self.error = response.messages;
                 };
 
                 /**
                  * getAnalyticSettings
                  */
                 self.getAnalyticSettings = function () {
-                    clearMessages();
+                    self.error = null;
+                    self.showSaveSuccessMessage = false;
+                    self.loading = true;
 
                     var apiParams = {
                         method: 'GET',
@@ -130,11 +110,11 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                         apiParams
                     ).then(
                         function successCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onGetAnalyticSettingsSuccess(response.data);
                         },
                         function errorCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onGetAnalyticSettingsError(response.data);
                         }
                     );
@@ -144,7 +124,9 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * saveAnalyticSettings
                  */
                 self.saveAnalyticSettings = function () {
-                    clearMessages();
+                    self.error = null;
+                    self.showSaveSuccessMessage = false;
+                    self.loading = true;
 
                     var apiParams = {
                         url: url,
@@ -161,44 +143,16 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                         apiParams
                     ).then(
                         function successCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onSaveAnalyticSettingsSuccess(response.data);
                         },
                         function errorCallback(response) {
-                            onLoadingChange(false);
+                            self.loading = false;
                             onSaveAnalyticSettingsError(response.data);
                         }
                     );
                 };
 
-                /**
-                 * deleteAnalyticSettings
-                 */
-                self.deleteAnalyticSettings = function () {
-                    clearMessages();
-
-                    var apiParams = {
-                        method: 'DELETE',
-                        url: url,
-                        data: self.analyticSettings,
-                        loading: onLoadingChange,
-                        success: onDeleteAnalyticSettingsSuccess,
-                        error: onSaveAnalyticSettingsError
-                    };
-
-                    $http(
-                        apiParams
-                    ).then(
-                        function successCallback(response) {
-                            onLoadingChange(false);
-                            onDeleteAnalyticSettingsSuccess(response.data);
-                        },
-                        function errorCallback(response) {
-                            onLoadingChange(false);
-                            onSaveAnalyticSettingsError(response.data);
-                        }
-                    );
-                };
                 /**
                  * initAnalytics
                  */
@@ -210,6 +164,7 @@ angular.module('rcmGoogleAnalytics', ['pascalprecht.translate'])
                  * init
                  */
                 self.init = function () {
+
                     self.initAnalytics();
                 };
 
