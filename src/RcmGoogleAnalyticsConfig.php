@@ -122,7 +122,8 @@ class RcmGoogleAnalyticsConfig
              */
             'Reliv\RcmGoogleAnalytics' => [
                 'use-analytics' => true,
-                'javascript-view' => 'test.js.phtml',
+                //Only set TRACKING_ID_OVERRIDE on local/dev/staging. Leave null on prod.
+                \Reliv\RcmGoogleAnalytics\Api\Analytics\GetCurrentAnalyticEntity::TRACKING_ID_OVERRIDE_KEY => null,
                 /**
                  * For use with:
                  * 'AnalyticsAccessRcmUserAcl' and/or 'RcmGoogleAnalyticsResourceProvider'

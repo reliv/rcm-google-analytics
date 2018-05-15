@@ -32,7 +32,7 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
     /**
      * __construct
      *
-     * @param array              $config
+     * @param array $config
      * @param GetCurrentAnalyticEntity $getCurrentAnalyticEntity
      */
     public function __construct(
@@ -64,7 +64,7 @@ class RcmGoogleAnalyticsJsHelper extends AbstractHelper
         );
 
         return $this->getView()->partial(
-            $this->config['javascript-view'],
+            'scriptInclude',
             array('model' => $this->model)
         );
     }

@@ -22,7 +22,8 @@ class GetCurrentAnalyticEntityFactory
     {
         return new GetCurrentAnalyticEntity(
             $container->get(GetCurrentSiteId::class),
-            $container->get(GetAnalyticEntityForSite::class)
+            $container->get(GetAnalyticEntityForSite::class),
+            $container->get('config')
         );
     }
 }
