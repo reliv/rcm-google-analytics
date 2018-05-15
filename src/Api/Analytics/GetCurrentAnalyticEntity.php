@@ -36,8 +36,7 @@ class GetCurrentAnalyticEntity
      *
      * @return null|\Reliv\RcmGoogleAnalytics\Entity\RcmGoogleAnalytics
      */
-    public
-    function __invoke(
+    public function __invoke(
         ServerRequestInterface $request,
         $default = null
     ) {
