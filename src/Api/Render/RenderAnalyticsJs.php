@@ -63,7 +63,7 @@ class RenderAnalyticsJs implements Render
             new RcmGoogleAnalytics()
         );
 
-        $template = $this->templatePath . $this->config['javascript-view'];
+        $template = $this->templatePath . 'scriptInclude.phtml';
 
         ob_start();
 
