@@ -4,15 +4,15 @@
  * @type {{}}
  */
 var rcmGoogleAnalyticsConfig = {
-    onAccessDenied : function (response) {
+    onAccessDenied: function (response) {
+        window.location.href = '/login?errorCode=unauthorized&redirect=' +
+            encodeURIComponent(window.location.pathname);
+    },
+    onNotFound: function (response) {
         // Default do nothing
         // console.error(response)
     },
-    onNotFound : function (response) {
-        // Default do nothing
-        // console.error(response)
-    },
-    onSaveSuccess : function (response) {
+    onSaveSuccess: function (response) {
         // Default do nothing
         // console.log(response)
     },
