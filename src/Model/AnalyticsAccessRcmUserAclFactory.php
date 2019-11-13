@@ -21,16 +21,6 @@ class AnalyticsAccessRcmUserAclFactory
      */
     public function __invoke($container)
     {
-        $rcmUserService = $container->get('RcmUser\Service\RcmUserService');
-        $config = $container->get('config');
-
-        $resourceConfig = $config['Reliv\RcmGoogleAnalytics']['acl-resource-config'];
-
-        return new AnalyticsAccessRcmUserAcl(
-            $rcmUserService,
-            $resourceConfig['privilege'],
-            $resourceConfig['resourceId'],
-            $resourceConfig['providerId']
-        );
+        return new AnalyticsAccessRcmUserAcl();
     }
 }
