@@ -36,11 +36,11 @@ class AnalyticsAccessRcmUserAclTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $service->expects($this->any())
-            ->method('isAllowed')
-            ->will(
-                $this->returnValue(true)
-            );
+//        $service->expects($this->any())
+//            ->method('isAllowed')
+//            ->will(
+//                $this->returnValue(true)
+//            );
 
         return $service;
     }
