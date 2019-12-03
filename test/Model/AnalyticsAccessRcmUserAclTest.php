@@ -36,12 +36,6 @@ class AnalyticsAccessRcmUserAclTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-//        $service->expects($this->any())
-//            ->method('isAllowed')
-//            ->will(
-//                $this->returnValue(true)
-//            );
-
         return $service;
     }
 
@@ -55,6 +49,6 @@ class AnalyticsAccessRcmUserAclTest extends \PHPUnit_Framework_TestCase
         $service = $this->getMockRcmUserService();
         $model = new AnalyticsAccessRcmUserAcl($service);
 
-        $this->assertTrue($model->hasAccess());
+        $this->assertFalse($model->hasAccess());
     }
 }
